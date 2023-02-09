@@ -60,12 +60,27 @@ public class ProdutoController
         try
         {
             _produtoServices.DeletarProduto(ProdutoId);
-            
+
             return new { sucesso = true };
         }
         catch (Exception ex)
         {
             return new { sucesso = false, mensagem = "Nãa foi possível deletar o produto pelo seguinte motivo: " + ex.Message };
+        }
+    }
+
+    [HttpGet, Route("listar-produtos")]
+    public object ListarProdutos()
+    {
+        try
+        {
+            var produtos = _produtoServices.ListarProdutos();
+
+            return new { sucesso = true, produtos };
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Não foi possível listar os produtos pelo seguinte motivo: " + ex.Message };
         }
     }
 }

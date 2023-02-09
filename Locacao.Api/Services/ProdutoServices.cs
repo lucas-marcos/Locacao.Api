@@ -40,4 +40,9 @@ public class ProdutoServices : IProdutoServices
         _produtoRepository.Remover(produtoCadastrado.Id);
         _produtoRepository.Salvar();
     }
+
+    public List<Produto> ListarProdutos()
+    {
+        return _produtoRepository.BuscarTodos().ToList();
+    }
 }
