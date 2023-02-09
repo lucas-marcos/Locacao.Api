@@ -23,16 +23,34 @@ public class ProdutoController
     {
         try
         {
-            if (!produto.IsValid())//todo ver dps se tem com validar antes do request chegar no construtor
+            if (!produto.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
                 throw new Exception(produto.RetornarErros());
 
             _produtoServices.CadatrarProduto(_mapper.Map<Produto>(produto));
-            
+
             return new { sucesso = true };
         }
         catch (Exception ex)
         {
             return new { sucesso = false, mensagem = "Não foi possível adicionar o produto pelo seguinte motivo: " + ex.Message };
+        }
+    }
+
+    [HttpPost, Route("editar-produto")]
+    public object EditarProduto(ProdutoParaEditarDTO produto)
+    {
+        try
+        {
+            if (!produto.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
+                throw new Exception(produto.RetornarErros());
+
+            _produtoServices.EditarProduto(_mapper.Map<Produto>(produto));
+            
+            return new { sucesso = true };
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Não foi possível editar o produto pelo seguinte motivo: " + ex.Message };
         }
     }
 }

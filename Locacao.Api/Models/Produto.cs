@@ -18,4 +18,21 @@ public class Produto : Entity
         Preco = preco;
         Imagem = imagem;
     }
+
+    public void SetNome(string nome)
+    {
+        Nome = nome;
+    }
+    public void SetDescricao(string descricao)
+    {
+        Descricao = descricao;
+    }
+    public void SetPreco(decimal preco)
+    {
+        Preco = preco;
+    }
+    public void SetImagem(byte[] imagem)
+    {
+        Imagem = imagem;
+    }
 }

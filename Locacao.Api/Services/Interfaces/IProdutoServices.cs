@@ -4,5 +4,6 @@ namespace Locacao.Api.Services.Interfaces;
 
 public interface IProdutoServices
 {
-    public void CadatrarProduto(Produto produto);
+    void CadatrarProduto(Produto produto);
+    void EditarProduto(Produto map);
 }

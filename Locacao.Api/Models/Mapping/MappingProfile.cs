@@ -8,5 +8,6 @@ public class MappingProfile : Profile
     public MappingProfile()
     {
         CreateMap<ProdutoDTO, Produto>();
+        CreateMap<ProdutoParaEditarDTO, Produto>();
     }
 }

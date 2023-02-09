@@ -1,16 +1,17 @@
 using FluentValidation.Results;
 using Locacao.Api.Validator;
 
-
 namespace Locacao.Api.Models.Dto;
 
-public class ProdutoDTO : ProdudoDTOBase
+public class ProdutoParaEditarDTO : ProdudoDTOBase
 {
+    public int Id { get; set; }
+    
     private List<ValidationFailure> Erros { get; set; }
 
     public bool IsValid()
     {
-        var produtoDTOValidator = new ProdutoDTOValidator();
+        var produtoDTOValidator = new ProdutoParaEditarDTOValidator();
 
         Erros = produtoDTOValidator.Validate(this).Errors;
         return Erros.Count == 0;
