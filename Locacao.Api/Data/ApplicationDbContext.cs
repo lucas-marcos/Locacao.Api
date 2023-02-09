@@ -7,6 +7,8 @@ namespace Locacao.Api.Data;
 public class ApplicationDbContext : DbContext
  {
     public DbSet<Login> Login { get; private set; }
+    public DbSet<Produto> Produto { get; private set; }
+    public DbSet<Estoque> Estoque { get; private set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
     {
