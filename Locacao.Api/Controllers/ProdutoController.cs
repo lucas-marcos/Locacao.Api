@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Locacao.Api.Controllers;
 
-[ApiController, Route("api/login")]
+[ApiController, Route("api/produtos")]
 public class ProdutoController
 {
     private readonly IMapper _mapper;
