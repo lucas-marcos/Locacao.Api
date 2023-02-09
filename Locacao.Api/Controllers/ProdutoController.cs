@@ -36,7 +36,7 @@ public class ProdutoController
         }
     }
 
-    [HttpPost, Route("editar-produto")]
+    [HttpPut, Route("editar-produto")]
     public object EditarProduto(ProdutoParaEditarDTO produto)
     {
         try
@@ -45,12 +45,27 @@ public class ProdutoController
                 throw new Exception(produto.RetornarErros());
 
             _produtoServices.EditarProduto(_mapper.Map<Produto>(produto));
-            
+
             return new { sucesso = true };
         }
         catch (Exception ex)
         {
             return new { sucesso = false, mensagem = "Não foi possível editar o produto pelo seguinte motivo: " + ex.Message };
+        }
+    }
+
+    [HttpDelete, Route("deletar-produto")]
+    public object DeletarProduto(int ProdutoId)
+    {
+        try
+        {
+            _produtoServices.DeletarProduto(ProdutoId);
+            
+            return new { sucesso = true };
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Nãa foi possível deletar o produto pelo seguinte motivo: " + ex.Message };
         }
     }
 }

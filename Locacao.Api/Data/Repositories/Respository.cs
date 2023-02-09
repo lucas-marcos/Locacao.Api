@@ -27,6 +27,10 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
 
         DbSet.Update(obj);
     }
+    public void Remover(int id)
+    {
+        DbSet.Remove(DbSet.Find(id));
+    }
     public virtual TEntity BuscarPorId(int id)
     {
         return DbSet.Find(id);

@@ -17,4 +17,5 @@ public interface IRepository<TEntity>
     public TEntity BuscarPorId(int id);
     public IQueryable<TEntity> BuscarTodos();
     public int Salvar();
+    void Remover(int id);
 }

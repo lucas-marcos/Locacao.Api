@@ -32,4 +32,12 @@ public class ProdutoServices : IProdutoServices
         _produtoRepository.Atualizar(produtoCadastrado);
         _produtoRepository.Salvar();
     }
+
+    public void DeletarProduto(int produtoId)
+    {
+        var produtoCadastrado = _produtoRepository.BuscarPorId(produtoId) ?? throw new Exception("Não foi possível encontrar produto informado");
+        
+        _produtoRepository.Remover(produtoCadastrado.Id);
+        _produtoRepository.Salvar();
+    }
 }
