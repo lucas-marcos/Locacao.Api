@@ -1,4 +1,8 @@
+using AutoMapper;
 using Locacao.Api.Data;
+using Locacao.Api.Data.Interfaces;
+using Locacao.Api.Data.Repositories;
+using Locacao.Api.Models.Mapping;
 using Locacao.Api.Services;
 using Locacao.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,7 +24,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IAutenticacaoServices, AutenticacaoServices>();
+InjecaoDepedenciaDosServices(builder.Services);
+InjecaoDepedenciaDosRepositories(builder.Services);
+
+var config = new MapperConfiguration(cfg => { cfg.AddProfile(new MappingProfile()); });
+var mapper = config.CreateMapper();
+builder.Services.AddSingleton(mapper);
 
 var app = builder.Build();
 
@@ -31,12 +40,22 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
+// app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+void InjecaoDepedenciaDosServices(IServiceCollection services)
+{
+    services.AddScoped<IAutenticacaoServices, AutenticacaoServices>();
+    services.AddScoped<IProdutoServices, ProdutoServices>();
+}
+
+void InjecaoDepedenciaDosRepositories(IServiceCollection services)
+{
+    services.AddScoped<IProdutoRepository, ProdutoRepository>();
+}
