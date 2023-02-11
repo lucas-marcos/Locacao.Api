@@ -1,13 +1,14 @@
 using AutoMapper;
 using Locacao.Api.Models;
 using Locacao.Api.Models.Dto;
+using Locacao.Api.Models.TO;
 using Locacao.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Locacao.Api.Controllers;
 
 [ApiController, Route("api/produtos")]
-public class ProdutoController
+public class ProdutoController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IProdutoServices _produtoServices;
@@ -18,69 +19,69 @@ public class ProdutoController
         _produtoServices = produtoServices;
     }
 
-    [HttpPost, Route("adicionar-produto")]
-    public object AdicionarProduto(ProdutoDTO produto)
+    [HttpPost]
+    public ActionResult<ProdutoTO> AdicionarProduto(ProdutoDTO produto) //todo verificar quando tem que usar DTO e quando tem que usar TO
     {
         try
         {
             if (!produto.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
                 throw new Exception(produto.RetornarErros());
 
-            _produtoServices.CadatrarProduto(_mapper.Map<Produto>(produto));
+            var produtoCadastrado = _produtoServices.CadatrarProduto(_mapper.Map<Produto>(produto));
 
-            return new { sucesso = true };
+            return Ok(_mapper.Map<ProdutoTO>(produtoCadastrado));
         }
         catch (Exception ex)
         {
-            return new { sucesso = false, mensagem = "Não foi possível adicionar o produto pelo seguinte motivo: " + ex.Message };
+            return StatusCode(500, "Não foi possível adicionar o produto pelo seguinte motivo: " + ex.Message);
         }
     }
 
-    [HttpPut, Route("editar-produto")]
-    public object EditarProduto(ProdutoParaEditarDTO produto)
+    [HttpPut]
+    public ActionResult<ProdutoParaEditarDTO> EditarProduto(ProdutoParaEditarDTO produto) //todo verificar quando tem que usar DTO e quando tem que usar TO
     {
         try
         {
             if (!produto.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
                 throw new Exception(produto.RetornarErros());
 
-            _produtoServices.EditarProduto(_mapper.Map<Produto>(produto));
+            var produtoEditado = _produtoServices.EditarProduto(_mapper.Map<Produto>(produto));
 
-            return new { sucesso = true };
+            return Ok(_mapper.Map<ProdutoTO>(produtoEditado));
         }
         catch (Exception ex)
         {
-            return new { sucesso = false, mensagem = "Não foi possível editar o produto pelo seguinte motivo: " + ex.Message };
+            return StatusCode(500, "Não foi possível editar o produto pelo seguinte motivo: " + ex.Message);
         }
     }
 
-    [HttpDelete, Route("deletar-produto")]
-    public object DeletarProduto(int ProdutoId)
+    [HttpDelete, Route("{produtoId}")]
+    public ActionResult DeletarProduto(int produtoId)
     {
         try
         {
-            _produtoServices.DeletarProduto(ProdutoId);
+            _produtoServices.DeletarProduto(produtoId);
 
-            return new { sucesso = true };
+            return Ok();
         }
         catch (Exception ex)
         {
-            return new { sucesso = false, mensagem = "Nãa foi possível deletar o produto pelo seguinte motivo: " + ex.Message };
+            return StatusCode(500, "Nãa foi possível deletar o produto pelo seguinte motivo: " + ex.Message);
         }
     }
 
-    [HttpGet, Route("listar-produtos")]
-    public object ListarProdutos()
+    [HttpGet]
+    public ActionResult<ProdutoTO> ListarProdutos()
     {
         try
         {
             var produtos = _produtoServices.ListarProdutos();
 
-            return new { sucesso = true, produtos };
+            return Ok(_mapper.Map<List<ProdutoTO>>(produtos));
         }
         catch (Exception ex)
         {
-            return new { sucesso = false, mensagem = "Não foi possível listar os produtos pelo seguinte motivo: " + ex.Message };
+            return StatusCode(500, "Não foi possível listar os produtos pelo seguinte motivo: " + ex.Message );
         }
     }
 }

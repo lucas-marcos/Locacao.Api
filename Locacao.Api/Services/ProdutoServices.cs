@@ -13,13 +13,15 @@ public class ProdutoServices : IProdutoServices
         _produtoRepository = produtoRepository;
     }
 
-    public void CadatrarProduto(Produto produto)
+    public Produto CadatrarProduto(Produto produto)
     {
         _produtoRepository.Adicionar(produto);
         _produtoRepository.Salvar();
+
+        return produto;
     }
 
-    public void EditarProduto(Produto produto)
+    public Produto EditarProduto(Produto produto)
     {
         var produtoCadastrado = _produtoRepository.BuscarPorId(produto.Id) ?? throw new Exception("Não foi possível encontrar produto informado");
         
@@ -31,6 +33,8 @@ public class ProdutoServices : IProdutoServices
 
         _produtoRepository.Atualizar(produtoCadastrado);
         _produtoRepository.Salvar();
+
+        return produtoCadastrado;
     }
 
     public void DeletarProduto(int produtoId)
