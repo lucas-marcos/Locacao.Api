@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Locacao.Api.Controllers;
 
-[ApiController, Route("api/Estoques")]
+[ApiController, Route("api/estoques")]
 public class EstoqueController : ControllerBase
 {
     private readonly IMapper _mapper;
