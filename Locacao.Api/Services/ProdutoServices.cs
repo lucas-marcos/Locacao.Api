@@ -49,4 +49,9 @@ public class ProdutoServices : IProdutoServices
     {
         return _produtoRepository.BuscarTodos().ToList();
     }
+
+    public Produto RetornarProduto(int produtoId)
+    {
+        return _produtoRepository.BuscarPorId(produtoId);
+    }
 }

@@ -11,5 +11,9 @@ public class MappingProfile : Profile
         CreateMap<ProdutoDTO, Produto>();
         CreateMap<Produto, ProdutoTO>();
         CreateMap<ProdutoParaEditarDTO, Produto>();
+        
+        CreateMap<EstoqueCadastrarDTO, Estoque>();
+        CreateMap<EstoqueEditarDTO, Estoque>();
+        CreateMap<Estoque, EstoqueTO>();
     }
 }

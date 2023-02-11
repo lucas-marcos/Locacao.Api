@@ -8,4 +8,5 @@ public interface IProdutoServices
     Produto EditarProduto(Produto map);
     void DeletarProduto(int produtoId);
     List<Produto>  ListarProdutos();
+    Produto RetornarProduto(int produtoId);
 }
