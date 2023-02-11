@@ -5,13 +5,13 @@ public class Produto : Entity
     public string Nome { get; private set; }
     public string Descricao { get; private set; }
     public decimal Preco { get; private set; }
-    public byte[] Imagem { get; private set; }
+    public string Imagem { get; private set; }
     public DateTime DataCriacao { get; } = DateTime.Now;
 
     //EF Constructor
     protected Produto() { }
 
-    public Produto(string nome, string descricao, decimal preco, byte[] imagem)
+    public Produto(string nome, string descricao, decimal preco, string imagem)
     {
         Nome = nome;
         Descricao = descricao;
@@ -31,7 +31,7 @@ public class Produto : Entity
     {
         Preco = preco;
     }
-    public void SetImagem(byte[] imagem)
+    public void SetImagem(string imagem)
     {
         Imagem = imagem;
     }

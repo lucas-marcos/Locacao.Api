@@ -6,5 +6,5 @@ public class ProdutoTO
     public string Nome { get; set; }
     public string Descricao { get; set; }
     public decimal Preco { get; set; }
-    public byte[]? Imagem { get; set; }
+    public string Imagem { get; set; }
 }
