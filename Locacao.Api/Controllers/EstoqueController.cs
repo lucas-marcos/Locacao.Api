@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Locacao.Api.Controllers;
 
 [ApiController, Route("api/estoques")]
-public class EstoqueController : ControllerBase
+public class EstoqueController
 {
     private readonly IMapper _mapper;
     private readonly IEstoqueServices _estoqueServices;
@@ -20,7 +20,7 @@ public class EstoqueController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<EstoqueTO> CadastrarEstoque(EstoqueCadastrarDTO estoque)
+    public object CadastrarEstoque(EstoqueCadastrarDTO estoque)
     {
         try
         {
@@ -29,16 +29,16 @@ public class EstoqueController : ControllerBase
 
             var estoqueCadastrado = _estoqueServices.CadastrarEstoque(_mapper.Map<Estoque>(estoque));
 
-            return Ok(_mapper.Map<EstoqueTO>(estoqueCadastrado));
+            return new { sucesso = true, estoque = _mapper.Map<EstoqueTO>(estoqueCadastrado) };
         }
         catch (Exception ex)
         {
-            return StatusCode(500, "Não foi possível cadastrar o estoque pelo seguinte motivo: " + ex.Message);
+            return new { sucesso = false, mensagem = "Não foi possível cadastrar o estoque pelo seguinte motivo: " + ex.Message };
         }
     }
 
     [HttpPut]
-    public ActionResult<EstoqueTO> EditarEstoque(EstoqueEditarDTO estoque)
+    public object EditarEstoque(EstoqueEditarDTO estoque)
     {
         try
         {
@@ -47,41 +47,41 @@ public class EstoqueController : ControllerBase
 
             var estoqueEditado = _estoqueServices.EditarEstoque(_mapper.Map<Estoque>(estoque));
 
-            return Ok(_mapper.Map<EstoqueTO>(estoqueEditado));
+            return new { sucesso = true, estoque = _mapper.Map<EstoqueTO>(estoqueEditado) };
         }
         catch (Exception ex)
         {
-            return StatusCode(500, "Não foi possível editar o estoque pelo seguinte motivo: " + ex.Message);
+            return new { sucesso = false, mensagem = "Não foi possível editar o estoque pelo seguinte motivo: " + ex.Message };
         }
     }
 
     [HttpDelete, Route("{estoqueId}")]
-    public ActionResult<EstoqueTO> DeletarEstoque(int estoqueId)
+    public object DeletarEstoque(int estoqueId)
     {
         try
         {
             _estoqueServices.DeletarEstoque(estoqueId);
 
-            return Ok();
+            return new { sucesso = true };
         }
         catch (Exception ex)
         {
-            return StatusCode(500, "Não foi possível deletar o estoque pelo seguinte motivo: " + ex.Message);
+            return new { sucesso = false, mensagem = "Não foi possível deletar o estoque pelo seguinte motivo: " + ex.Message };
         }
     }
 
     [HttpGet]
-    public ActionResult<List<EstoqueTO>> RetornarEstoque()
+    public object RetornarEstoque()
     {
         try
         {
             var estoques = _estoqueServices.ListarEstoquesEProdutos();
 
-            return Ok(_mapper.Map<List<EstoqueTO>>(estoques));
+            return new { sucesso = true, estoques = _mapper.Map<List<EstoqueTO>>(estoques) };
         }
         catch (Exception ex)
         {
-            return StatusCode(500, "Não foi possível listar o estoque pelo seguinte motivo: " + ex.Message);
+            return new { sucesso = false, mensagem = "Não foi possível listar o estoque pelo seguinte motivo: " + ex.Message };
         }
     }
 }
