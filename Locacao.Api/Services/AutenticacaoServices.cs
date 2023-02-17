@@ -6,18 +6,45 @@ namespace Locacao.Api.Services;
 
 public class AutenticacaoServices : IAutenticacaoServices
 {
-    private readonly UserManager<Login> _userManager;
-    
-    public AutenticacaoServices()
-    {
-        
-    }
-    
-    public void Autenticar(string login, string senha)
-    {
-        if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(senha)) throw new Exception();
-        
-        var a = _userManager.FindByEmailAsync(login).Result ?? _userManager.FindByNameAsync(login).Result;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ITokenServices _tokenServices;
+    private readonly SignInManager<ApplicationUser> _signInManager;
 
+    public AutenticacaoServices(UserManager<ApplicationUser> userManager, ITokenServices tokenServices, SignInManager<ApplicationUser> signInManager)
+    {
+        _userManager = userManager;
+        _tokenServices = tokenServices;
+        _signInManager = signInManager;
+    }
+
+    public ApplicationUser Autenticar(ApplicationUser usuario, string senha)
+    {
+        var usuarioCadastrado = _userManager.FindByEmailAsync(usuario.Email).Result 
+                      ?? _userManager.FindByNameAsync(usuario.Email).Result 
+                      ?? throw  new Exception("Usuário ou senha inválida");
+        
+        var resultLogin = _signInManager.PasswordSignInAsync(usuarioCadastrado, senha, isPersistent: false, lockoutOnFailure: false).Result;
+
+        if (!resultLogin.Succeeded) throw new Exception("Usuário ou senha inválida");
+        
+        usuarioCadastrado.SetToken(_tokenServices.GerarToken(usuarioCadastrado));
+
+        return usuarioCadastrado;
+    }
+
+    public ApplicationUser CriarUsuario(ApplicationUser usuario, string senha)
+    {
+        var user = new ApplicationUser(usuario.Nome, usuario.Sobrenome, usuario.Role)
+        {
+            UserName = usuario.Email,
+            Email = usuario.Email,
+        };
+
+        var result = _userManager.CreateAsync(user, senha).Result;
+
+        if (result.Errors.Any(e => e.Code == "DuplicateUserName"))
+            throw new Exception("O endereço de email já está sendo usado por outro usuário.");
+
+        return user;
     }
 }

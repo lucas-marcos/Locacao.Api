@@ -1,19 +1,27 @@
+using System.Globalization;
+using System.Text;
 using AutoMapper;
+using Locacao.Api.Configuration;
 using Locacao.Api.Data;
 using Locacao.Api.Data.Interfaces;
 using Locacao.Api.Data.Repositories;
+using Locacao.Api.Models;
 using Locacao.Api.Models.Mapping;
 using Locacao.Api.Services;
 using Locacao.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
+CultureInfo.CurrentCulture = new CultureInfo("pt-BR");
+
+ConfigurarAutenticacao(builder.Services);
+
 // Add services to the container.
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -48,7 +56,7 @@ app.UseCors(x => x
 
 app.UseHttpsRedirection();
 
-// app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -60,10 +68,48 @@ void InjecaoDepedenciaDosServices(IServiceCollection services)
     services.AddScoped<IAutenticacaoServices, AutenticacaoServices>();
     services.AddScoped<IProdutoServices, ProdutoServices>();
     services.AddScoped<IEstoqueServices, EstoqueServices>();
+    services.AddScoped<ITokenServices, TokenServices>();
 }
 
 void InjecaoDepedenciaDosRepositories(IServiceCollection services)
 {
     services.AddScoped<IProdutoRepository, ProdutoRepository>();
     services.AddScoped<IEstoqueRepository, EstoqueRepository>();
+}
+
+void ConfigurarAutenticacao(IServiceCollection services)
+{
+    var key = Encoding.ASCII.GetBytes(Settings.Secret);
+
+    services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(x =>
+        {
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });
+
+    services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequiredLength = 0;
+            options.Password.RequiredUniqueChars = 1;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+
+            options.User.RequireUniqueEmail = true;
+        })
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 }

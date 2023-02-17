@@ -15,5 +15,10 @@ public class MappingProfile : Profile
         CreateMap<EstoqueCadastrarDTO, Estoque>();
         CreateMap<EstoqueEditarDTO, Estoque>();
         CreateMap<Estoque, EstoqueTO>();
+        
+        CreateMap<ApplicationUserCriarUsuarioDTO, ApplicationUser>();
+        CreateMap<ApplicationUserLogarDTO, ApplicationUser>();
+        CreateMap<ApplicationUser, ApplicationUserTO>();
+        
     }
 }

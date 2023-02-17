@@ -1,8 +1,9 @@
-﻿using Locacao.Api.Models.TO;
+﻿using Locacao.Api.Models;
 
 namespace Locacao.Api.Services.Interfaces;
 
 public interface IAutenticacaoServices
 {
- public void Autenticar(string login, string senha);
+ ApplicationUser Autenticar(ApplicationUser usuario, string senha);
+ ApplicationUser CriarUsuario(ApplicationUser usuario, string senha);
 }

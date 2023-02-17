@@ -1,12 +1,11 @@
 ﻿using Locacao.Api.Models;
-using Locacao.Api.Models.TO;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Locacao.Api.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
  {
-    public DbSet<Login> Login { get; private set; }
     public DbSet<Produto> Produto { get; private set; }
     public DbSet<Estoque> Estoque { get; private set; }
 
@@ -17,6 +16,7 @@ public class ApplicationDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        base.OnModelCreating(builder);
           
         foreach (var property in builder.Model.GetEntityTypes()
                      .SelectMany(t => t.GetProperties())
