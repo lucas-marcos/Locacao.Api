@@ -9,14 +9,12 @@ public class AutenticacaoServices : IAutenticacaoServices
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenServices _tokenServices;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
 
     public AutenticacaoServices(UserManager<ApplicationUser> userManager, ITokenServices tokenServices, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _tokenServices = tokenServices;
         _signInManager = signInManager;
-        _roleManager = roleManager;
     }
 
     public ApplicationUser Autenticar(ApplicationUser usuario, string senha)
@@ -49,9 +47,7 @@ public class AutenticacaoServices : IAutenticacaoServices
             throw new Exception("O endereço de email já está sendo usado por outro usuário.");
 
         if (!result.Succeeded) throw new Exception("Encontramos os seguintes erros: " + string.Join(", ", result.Errors.Select(a => a.Description)));
-        
-        _ = _userManager.AddToRoleAsync(user, usuario.Role).Result;
-        
+
         return user;
     }
 }

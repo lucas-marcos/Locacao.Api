@@ -1,13 +1,10 @@
 using AutoMapper;
-using IdentityModel;
 using Locacao.Api.Controllers.Filters;
-using Locacao.Api.Framework;
 using Locacao.Api.Models;
 using Locacao.Api.Models.Dto;
 using Locacao.Api.Models.Enums;
 using Locacao.Api.Models.TO;
 using Locacao.Api.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Locacao.Api.Controllers;
@@ -25,6 +22,7 @@ public class ProdutoController
     }
 
     [HttpPost]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object AdicionarProduto(ProdutoDTO produto) //todo verificar quando tem que usar DTO e quando tem que usar TO
     {
         try
@@ -43,6 +41,7 @@ public class ProdutoController
     }
 
     [HttpPut]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object EditarProduto(ProdutoParaEditarDTO produto) //todo verificar quando tem que usar DTO e quando tem que usar TO
     {
         try
@@ -61,6 +60,7 @@ public class ProdutoController
     }
 
     [HttpDelete, Route("{produtoId}")]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object DeletarProduto(int produtoId)
     {
         try
@@ -78,9 +78,6 @@ public class ProdutoController
 
     [HttpGet]
     [CustomAuthorizationFilter(TipoRoles.Usuario)]
-    // [Authorize(Roles = "adm,Usuario")]
-    // [Authorize]
-    // [Authorize(Roles = TipoRoles.Usuario.GetDescription())]
     public object ListarProdutos()
     {
         try

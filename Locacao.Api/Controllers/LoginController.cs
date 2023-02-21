@@ -1,6 +1,8 @@
 using AutoMapper;
+using Locacao.Api.Controllers.Filters;
 using Locacao.Api.Models;
 using Locacao.Api.Models.Dto;
+using Locacao.Api.Models.Enums;
 using Locacao.Api.Models.TO;
 using Locacao.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +44,7 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost, Route("criar-usuario")]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object CriarUsuario(ApplicationUserCriarUsuarioDTO usuario)
     {
         try
