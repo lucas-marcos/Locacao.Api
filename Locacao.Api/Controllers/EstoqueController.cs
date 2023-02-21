@@ -3,6 +3,8 @@ using Locacao.Api.Models;
 using Locacao.Api.Models.Dto;
 using Locacao.Api.Models.TO;
 using Locacao.Api.Services.Interfaces;
+using Locacao.Api.Controllers.Filters;
+using Locacao.Api.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Locacao.Api.Controllers;
@@ -12,7 +14,6 @@ public class EstoqueController
 {
     private readonly IMapper _mapper;
     private readonly IEstoqueServices _estoqueServices;
-
     public EstoqueController(IMapper mapper, IEstoqueServices estoqueServices)
     {
         _mapper = mapper;
@@ -20,6 +21,7 @@ public class EstoqueController
     }
 
     [HttpPost]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object CadastrarEstoque(EstoqueCadastrarDTO estoque)
     {
         try
@@ -38,6 +40,7 @@ public class EstoqueController
     }
 
     [HttpPut]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object EditarEstoque(EstoqueEditarDTO estoque)
     {
         try
@@ -56,6 +59,7 @@ public class EstoqueController
     }
 
     [HttpDelete, Route("{estoqueId}")]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object DeletarEstoque(int estoqueId)
     {
         try
@@ -71,6 +75,7 @@ public class EstoqueController
     }
 
     [HttpGet]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarEstoque()
     {
         try

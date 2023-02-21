@@ -22,7 +22,7 @@ public class ProdutoController
     }
 
     [HttpPost]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object AdicionarProduto(ProdutoDTO produto) //todo verificar quando tem que usar DTO e quando tem que usar TO
     {
         try
@@ -41,7 +41,7 @@ public class ProdutoController
     }
 
     [HttpPut]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object EditarProduto(ProdutoParaEditarDTO produto) //todo verificar quando tem que usar DTO e quando tem que usar TO
     {
         try
@@ -60,7 +60,7 @@ public class ProdutoController
     }
 
     [HttpDelete, Route("{produtoId}")]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object DeletarProduto(int produtoId)
     {
         try
