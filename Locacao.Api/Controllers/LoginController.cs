@@ -29,7 +29,10 @@ public class LoginController : ControllerBase
                 throw new Exception(usuario.RetornarErros());
             
             var usuarioLogado = _autenticacaoServices.Autenticar(_mapper.Map<ApplicationUser>(usuario), usuario.Senha);
-
+            
+            Response.Cookies.Delete(".AspNetCore.Identity.Application");
+            Response.Headers.Remove("Set-Cookie");
+            
             return new { sucesso = true, usuario = _mapper.Map<ApplicationUserTO>(usuarioLogado) };
         }
         catch (Exception ex)

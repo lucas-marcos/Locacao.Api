@@ -9,16 +9,19 @@ public class AutenticacaoServices : IAutenticacaoServices
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenServices _tokenServices;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AutenticacaoServices(UserManager<ApplicationUser> userManager, ITokenServices tokenServices, SignInManager<ApplicationUser> signInManager)
+    public AutenticacaoServices(UserManager<ApplicationUser> userManager, ITokenServices tokenServices, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
         _tokenServices = tokenServices;
         _signInManager = signInManager;
+        _roleManager = roleManager;
     }
 
     public ApplicationUser Autenticar(ApplicationUser usuario, string senha)
     {
+        
         var usuarioCadastrado = _userManager.FindByEmailAsync(usuario.Email).Result 
                       ?? _userManager.FindByNameAsync(usuario.Email).Result 
                       ?? throw  new Exception("Usuário ou senha inválida");
@@ -45,6 +48,10 @@ public class AutenticacaoServices : IAutenticacaoServices
         if (result.Errors.Any(e => e.Code == "DuplicateUserName"))
             throw new Exception("O endereço de email já está sendo usado por outro usuário.");
 
+        if (!result.Succeeded) throw new Exception("Encontramos os seguintes erros: " + string.Join(", ", result.Errors.Select(a => a.Description)));
+        
+        _ = _userManager.AddToRoleAsync(user, usuario.Role).Result;
+        
         return user;
     }
 }

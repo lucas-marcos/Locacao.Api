@@ -19,8 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 CultureInfo.CurrentCulture = new CultureInfo("pt-BR");
 
-ConfigurarAutenticacao(builder.Services);
-
 // Add services to the container.
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -31,6 +29,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+ConfigurarAutenticacao(builder.Services);
 
 InjecaoDepedenciaDosServices(builder.Services);
 InjecaoDepedenciaDosRepositories(builder.Services);
@@ -79,26 +79,6 @@ void InjecaoDepedenciaDosRepositories(IServiceCollection services)
 
 void ConfigurarAutenticacao(IServiceCollection services)
 {
-    var key = Encoding.ASCII.GetBytes(Settings.Secret);
-
-    services.AddAuthentication(x =>
-        {
-            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(x =>
-        {
-            x.RequireHttpsMetadata = false;
-            x.SaveToken = true;
-            x.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false
-            };
-        });
-
     services.AddIdentity<ApplicationUser, IdentityRole>(options =>
         {
             options.Password.RequireDigit = false;
@@ -112,4 +92,25 @@ void ConfigurarAutenticacao(IServiceCollection services)
         })
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
+
+    var key = Encoding.ASCII.GetBytes(Settings.Secret);
+
+    services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(x =>
+        {
+           
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = false,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });
 }
