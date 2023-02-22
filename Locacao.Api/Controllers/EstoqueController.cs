@@ -75,6 +75,7 @@ public class EstoqueController
     }
 
     [HttpGet]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarEstoque()
     {

@@ -44,7 +44,6 @@ public class LoginController : ControllerBase
     }
 
     [HttpPost, Route("criar-usuario")]
-    [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object CriarUsuario(ApplicationUserCriarUsuarioDTO usuario)
     {
         try
