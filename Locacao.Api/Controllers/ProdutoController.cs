@@ -77,8 +77,7 @@ public class ProdutoController
     }
 
     [HttpGet]
-    [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    [CustomAuthorizationFilter(TipoRoles.Usuario, TipoRoles.Administrador)]
     public object ListarProdutos()
     {
         try
