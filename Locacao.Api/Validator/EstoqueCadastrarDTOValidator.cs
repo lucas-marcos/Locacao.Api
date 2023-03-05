@@ -3,7 +3,7 @@ using Locacao.Api.Models.Dto;
 
 namespace Locacao.Api.Validator;
 
-public class EstoqueCadastrarDTOValidator : AbstractValidator<EstoqueCadastrarDTO>
+public class EstoqueCadastrarDTOValidator : AbstractValidator<CadastrarEditarEstoqueDto>
 {
     public EstoqueCadastrarDTOValidator()
     {

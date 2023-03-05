@@ -9,4 +9,6 @@ public interface IProdutoServices
     void DeletarProduto(int produtoId);
     List<Produto>  ListarProdutos();
     Produto RetornarProduto(int produtoId);
+    void Atualizar(Produto produto);
+    void Salvar();
 }

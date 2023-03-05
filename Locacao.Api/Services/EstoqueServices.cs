@@ -6,53 +6,40 @@ namespace Locacao.Api.Services;
 
 public class EstoqueServices : IEstoqueServices
 {
-    private readonly IEstoqueRepository _estoqueRepository;
     private readonly IProdutoServices _produtoServices;
 
-    public EstoqueServices(IEstoqueRepository estoqueRepository, IProdutoServices produtoServices)
+    public EstoqueServices(IProdutoServices produtoServices)
     {
-        _estoqueRepository = estoqueRepository;
         _produtoServices = produtoServices;
     }
-
-    public Estoque CadastrarEstoque(Estoque estoque)
+    
+    private Produto SetarQuantidadeEstoque(Produto produto)
     {
-        _ = _produtoServices.RetornarProduto(estoque.ProdutoId) ?? throw new Exception("Não foi possível encontrar o produto informado");
+        var produtoCadastrado = _produtoServices.RetornarProduto(produto.Id) ?? throw new Exception("Não foi possível encontrar o produto informado");
 
-        _estoqueRepository.Adicionar(estoque);
-        _estoqueRepository.Salvar();
+        produtoCadastrado.SetQuantidade(produto.Quantidade);
+        _produtoServices.Atualizar(produtoCadastrado);
+        
+        _produtoServices.Salvar();
 
-        return estoque;
+        return produtoCadastrado;
     }
 
-    public Estoque EditarEstoque(Estoque estoque)
+    public Produto CadastrarEstoque(Produto produto) => SetarQuantidadeEstoque(produto);
+    public Produto EditarEstoque(Produto produto) => SetarQuantidadeEstoque(produto);
+    
+    public void DeletarEstoque(int produtoId)
     {
-        var estoqueCadastrado = RetornarEstoque(estoque.Id) ?? throw new Exception("Não foi possível encontrar o estoque informado");
-        var produtoCadastrado = _produtoServices.RetornarProduto(estoque.ProdutoId) ?? throw new Exception("Não foi possível encontrar o produto informado");
-
-        estoqueCadastrado.SetProduto(produtoCadastrado);
-        estoqueCadastrado.SetQuantidade(estoque.Quantidade);
-
-        _estoqueRepository.Atualizar(estoqueCadastrado);
-        _estoqueRepository.Salvar();
-
-        return estoqueCadastrado;
+        var produtoCadastrado = _produtoServices.RetornarProduto(produtoId) ?? throw new Exception("Não foi possível encontrar o estoque para deletar");
+    
+        produtoCadastrado.SetQuantidade(0);
+        
+        _produtoServices.Atualizar(produtoCadastrado);
+        _produtoServices.Salvar();
     }
-
-    public void DeletarEstoque(int estoqueId)
+    
+    public List<Produto> ListarProdutos()
     {
-        var estoqueCadastrado = RetornarEstoque(estoqueId) ?? throw new Exception("Não foi possível encontrar o estoque para deletar");
-
-        _estoqueRepository.Remover(estoqueCadastrado.Id);
-        _estoqueRepository.Salvar();
-    }
-
-    public List<Estoque> ListarEstoquesEProdutos()
-    {
-        return _estoqueRepository.RetornarEstoquesEProdutos().ToList();
-    }
-    public Estoque RetornarEstoque(int estoqueId)
-    {
-        return _estoqueRepository.BuscarPorId(estoqueId);
+        return _produtoServices.ListarProdutos().ToList();
     }
 }

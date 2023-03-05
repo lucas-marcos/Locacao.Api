@@ -4,12 +4,12 @@ namespace Locacao.Api.Services.Interfaces;
 
 public interface IEstoqueServices
 {
-    Estoque CadastrarEstoque(Estoque estoque);
-    Estoque EditarEstoque(Estoque estoque);
-    Estoque RetornarEstoque(int estoqueId);
-    /// <summary>
-    /// Irá retornar o Estoque dando innerjoin com o produto
-    /// </summary>
-    List<Estoque> ListarEstoquesEProdutos();
-    void DeletarEstoque(int estoqueId);
+    Produto CadastrarEstoque(Produto estoque);
+    Produto EditarEstoque(Produto estoque);
+    void DeletarEstoque(int produtoId);
+    // /// <summary>
+    // /// Irá retornar o Estoque dando innerjoin com o produto
+    // /// </summary>
+    List<Produto> ListarProdutos();
+    // Estoque RetornarEstoquePeloProdutoId(int produtoId);
 }

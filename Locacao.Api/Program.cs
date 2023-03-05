@@ -74,7 +74,6 @@ void InjecaoDepedenciaDosServices(IServiceCollection services)
 void InjecaoDepedenciaDosRepositories(IServiceCollection services)
 {
     services.AddScoped<IProdutoRepository, ProdutoRepository>();
-    services.AddScoped<IEstoqueRepository, EstoqueRepository>();
 }
 
 void ConfigurarAutenticacao(IServiceCollection services)

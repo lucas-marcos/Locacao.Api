@@ -1,10 +1,10 @@
 using AutoMapper;
+using Locacao.Api.Controllers.Filters;
 using Locacao.Api.Models;
 using Locacao.Api.Models.Dto;
+using Locacao.Api.Models.Enums;
 using Locacao.Api.Models.TO;
 using Locacao.Api.Services.Interfaces;
-using Locacao.Api.Controllers.Filters;
-using Locacao.Api.Models.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Locacao.Api.Controllers;
@@ -22,50 +22,50 @@ public class EstoqueController
 
     [HttpPost]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    public object CadastrarEstoque(EstoqueCadastrarDTO estoque)
+    public object CadastrarEstoque(CadastrarEditarEstoqueDto cadastrarEditarEstoque)
     {
         try
         {
-            if (!estoque.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
-                throw new Exception(estoque.RetornarErros());
+            if (!cadastrarEditarEstoque.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
+                throw new Exception(cadastrarEditarEstoque.RetornarErros());
 
-            var estoqueCadastrado = _estoqueServices.CadastrarEstoque(_mapper.Map<Estoque>(estoque));
+            var estoqueCadastrado = _estoqueServices.CadastrarEstoque(_mapper.Map<Produto>(cadastrarEditarEstoque));
 
-            return new { sucesso = true, estoque = _mapper.Map<EstoqueTO>(estoqueCadastrado) };
+            return new { sucesso = true, estoque = _mapper.Map<ProdutoTO>(estoqueCadastrado) };
         }
         catch (Exception ex)
         {
             return new { sucesso = false, mensagem = "Não foi possível cadastrar o estoque pelo seguinte motivo: " + ex.Message };
         }
     }
-
+    
     [HttpPut]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    public object EditarEstoque(EstoqueEditarDTO estoque)
+    public object EditarEstoque(CadastrarEditarEstoqueDto editarEstoque)
     {
         try
         {
-            if (!estoque.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
-                throw new Exception(estoque.RetornarErros());
-
-            var estoqueEditado = _estoqueServices.EditarEstoque(_mapper.Map<Estoque>(estoque));
-
-            return new { sucesso = true, estoque = _mapper.Map<EstoqueTO>(estoqueEditado) };
+            if (!editarEstoque.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
+                throw new Exception(editarEstoque.RetornarErros());
+    
+            var estoqueEditado = _estoqueServices.EditarEstoque(_mapper.Map<Produto>(editarEstoque));
+    
+            return new { sucesso = true, estoque = _mapper.Map<ProdutoTO>(estoqueEditado) };
         }
         catch (Exception ex)
         {
             return new { sucesso = false, mensagem = "Não foi possível editar o estoque pelo seguinte motivo: " + ex.Message };
         }
     }
-
-    [HttpDelete, Route("{estoqueId}")]
+    
+    [HttpDelete, Route("{produtoId}")]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    public object DeletarEstoque(int estoqueId)
+    public object DeletarEstoque(int produtoId)
     {
         try
         {
-            _estoqueServices.DeletarEstoque(estoqueId);
-
+            _estoqueServices.DeletarEstoque(produtoId);
+    
             return new { sucesso = true };
         }
         catch (Exception ex)
@@ -73,16 +73,16 @@ public class EstoqueController
             return new { sucesso = false, mensagem = "Não foi possível deletar o estoque pelo seguinte motivo: " + ex.Message };
         }
     }
-
+    
     [HttpGet]
-    [CustomAuthorizationFilter(TipoRoles.Usuario, TipoRoles.Administrador)]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarEstoque()
     {
         try
         {
-            var estoques = _estoqueServices.ListarEstoquesEProdutos();
-
-            return new { sucesso = true, estoques = _mapper.Map<List<EstoqueTO>>(estoques) };
+            var estoques = _estoqueServices.ListarProdutos();
+    
+            return new { sucesso = true, estoques = _mapper.Map<List<Produto>>(estoques) };
         }
         catch (Exception ex)
         {

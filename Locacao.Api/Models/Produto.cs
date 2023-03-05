@@ -7,6 +7,7 @@ public class Produto : Entity
     public decimal Preco { get; private set; }
     public string Imagem { get; private set; }
     public DateTime DataCriacao { get; } = DateTime.Now;
+    public int Quantidade { get; private set; }
 
     //EF Constructor
     protected Produto() { }
@@ -35,4 +36,5 @@ public class Produto : Entity
     {
         Imagem = imagem;
     }
+    public void SetQuantidade(int quantidade) => Quantidade = quantidade;
 }

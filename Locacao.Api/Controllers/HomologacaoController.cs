@@ -28,15 +28,13 @@ public class HomologacaoController
         return conexao == "LocacaoDbHomologacao";
     }
 
-    [HttpGet, Route("limpar-tabela-produtos-e-estoque")]
+    [HttpGet, Route("limpar-tabela-produtos")]
     public void LimparTabelaProdutos()
     {
-        var estoque = _applicationDbContext.Estoque;
         var produto = _applicationDbContext.Produto;
-
-        _applicationDbContext.Estoque.RemoveRange(estoque);
+        
         _applicationDbContext.Produto.RemoveRange(produto);
-
+        
         _applicationDbContext.SaveChanges();
     }
 }

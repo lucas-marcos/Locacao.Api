@@ -54,4 +54,7 @@ public class ProdutoServices : IProdutoServices
     {
         return _produtoRepository.BuscarPorId(produtoId);
     }
+
+    public void Atualizar(Produto produto) => _produtoRepository.Atualizar(produto);
+    public void Salvar() => _produtoRepository.Salvar();
 }
