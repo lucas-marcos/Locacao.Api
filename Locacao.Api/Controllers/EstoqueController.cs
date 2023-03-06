@@ -22,7 +22,7 @@ public class EstoqueController
 
     [HttpPost]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    public object CadastrarEstoque(CadastrarEditarEstoqueDto cadastrarEditarEstoque)
+    public object CadastrarEstoque(CadastrarEditarEstoqueDTO cadastrarEditarEstoque)
     {
         try
         {
@@ -41,7 +41,7 @@ public class EstoqueController
     
     [HttpPut]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    public object EditarEstoque(CadastrarEditarEstoqueDto editarEstoque)
+    public object EditarEstoque(CadastrarEditarEstoqueDTO editarEstoque)
     {
         try
         {

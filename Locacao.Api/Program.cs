@@ -69,11 +69,14 @@ void InjecaoDepedenciaDosServices(IServiceCollection services)
     services.AddScoped<IProdutoServices, ProdutoServices>();
     services.AddScoped<IEstoqueServices, EstoqueServices>();
     services.AddScoped<ITokenServices, TokenServices>();
+    services.AddScoped<ILocacaoServices, LocacaoServices>();
+    services.AddScoped<IDisponibilidadeDoEstoqueServices, DisponibilidadeDoEstoqueServices>();
 }
 
 void InjecaoDepedenciaDosRepositories(IServiceCollection services)
 {
     services.AddScoped<IProdutoRepository, ProdutoRepository>();
+    services.AddScoped<ILocacaoRepository, LocacaoRepository>();
 }
 
 void ConfigurarAutenticacao(IServiceCollection services)

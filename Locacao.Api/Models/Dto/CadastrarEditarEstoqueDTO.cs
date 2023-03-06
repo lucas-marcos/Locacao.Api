@@ -3,13 +3,13 @@ using Locacao.Api.Validator;
 
 namespace Locacao.Api.Models.Dto;
 
-public class CadastrarEditarEstoqueDto : EstoqueDTOBase
+public class CadastrarEditarEstoqueDTO : EstoqueDTOBase
 {
     private List<ValidationFailure> Erros { get; set; }
 
     public bool IsValid()
     {
-        var estoqueCadastrarDTOValidator = new EstoqueCadastrarDTOValidator();
+        var estoqueCadastrarDTOValidator = new CadastrarEditarEstoqueDTOValidator();
 
         Erros = estoqueCadastrarDTOValidator.Validate(this).Errors;
         return Erros.Count == 0;

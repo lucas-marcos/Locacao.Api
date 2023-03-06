@@ -19,7 +19,8 @@ public class TokenServices : ITokenServices
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.Name, usuario.UserName),
-                new Claim(ClaimTypes.Role, usuario.Role)
+                new Claim(ClaimTypes.Role, usuario.Role),
+                new Claim("UsuarioId", usuario.Id)
             }),
             
             Expires = DateTime.UtcNow.AddHours(10),

@@ -12,7 +12,7 @@ public class MappingProfile : Profile
         CreateMap<Produto, ProdutoTO>();
         CreateMap<ProdutoParaEditarDTO, Produto>();
         
-        CreateMap<CadastrarEditarEstoqueDto, Produto>()
+        CreateMap<CadastrarEditarEstoqueDTO, Produto>()
             .ForMember(a => a.Quantidade, map =>map.MapFrom(src => src.Quantidade))
             .ForMember(a => a.Id, map =>map.MapFrom(src => src.ProdutoId));
   
@@ -20,5 +20,10 @@ public class MappingProfile : Profile
         CreateMap<ApplicationUserLogarDTO, ApplicationUser>();
         CreateMap<ApplicationUser, ApplicationUserTO>();
         
+        CreateMap<Locacao, LocacaoTO>()
+            .ForMember(dest => dest.UsuarioQueSolicitou, opt => opt.MapFrom(src => src.UsuarioQueSolicitou.UserName))
+            .ForMember(dest => dest.enderecoDoEvento, opt => opt.MapFrom(src => src.EnderecoDoEvento))
+            .ForMember(dest => dest.Produtos, opt => opt.MapFrom(src => src.ProdutoPorLocacao.Select(pl => pl.Produto).ToList()));
+
     }
 }

@@ -4,6 +4,7 @@ using Locacao.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Locacao.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230306021652_AddTabelaDeEnderecoELocacao")]
+    partial class AddTabelaDeEnderecoELocacao
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,9 +155,6 @@ namespace Locacao.Api.Migrations
                     b.Property<int>("EnderecoDoEventoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ProdutoId")
-                        .HasColumnType("int");
-
                     b.Property<int>("StatusDaLocacao")
                         .HasColumnType("int");
 
@@ -164,8 +164,6 @@ namespace Locacao.Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EnderecoDoEventoId");
-
-                    b.HasIndex("ProdutoId");
 
                     b.HasIndex("UsuarioQueSolicitouId");
 
@@ -203,30 +201,19 @@ namespace Locacao.Api.Migrations
                     b.ToTable("Produto");
                 });
 
-            modelBuilder.Entity("Locacao.Api.Models.ProdutoPorLocacao", b =>
+            modelBuilder.Entity("LocacaoProduto", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("LocacoesId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("LocacaoId")
+                    b.Property<int>("ProdutosId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProdutoId")
-                        .HasColumnType("int");
+                    b.HasKey("LocacoesId", "ProdutosId");
 
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
+                    b.HasIndex("ProdutosId");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocacaoId");
-
-                    b.HasIndex("ProdutoId");
-
-                    b.ToTable("ProdutoPorLocacao");
+                    b.ToTable("LocacaoProduto");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -370,10 +357,6 @@ namespace Locacao.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Locacao.Api.Models.Produto", null)
-                        .WithMany("Locacoes")
-                        .HasForeignKey("ProdutoId");
-
                     b.HasOne("Locacao.Api.Models.ApplicationUser", "UsuarioQueSolicitou")
                         .WithMany()
                         .HasForeignKey("UsuarioQueSolicitouId");
@@ -383,19 +366,19 @@ namespace Locacao.Api.Migrations
                     b.Navigation("UsuarioQueSolicitou");
                 });
 
-            modelBuilder.Entity("Locacao.Api.Models.ProdutoPorLocacao", b =>
+            modelBuilder.Entity("LocacaoProduto", b =>
                 {
                     b.HasOne("Locacao.Api.Models.Locacao", null)
-                        .WithMany("ProdutoPorLocacao")
-                        .HasForeignKey("LocacaoId");
-
-                    b.HasOne("Locacao.Api.Models.Produto", "Produto")
                         .WithMany()
-                        .HasForeignKey("ProdutoId")
+                        .HasForeignKey("LocacoesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Produto");
+                    b.HasOne("Locacao.Api.Models.Produto", null)
+                        .WithMany()
+                        .HasForeignKey("ProdutosId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -447,16 +430,6 @@ namespace Locacao.Api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Locacao.Api.Models.Locacao", b =>
-                {
-                    b.Navigation("ProdutoPorLocacao");
-                });
-
-            modelBuilder.Entity("Locacao.Api.Models.Produto", b =>
-                {
-                    b.Navigation("Locacoes");
                 });
 #pragma warning restore 612, 618
         }
