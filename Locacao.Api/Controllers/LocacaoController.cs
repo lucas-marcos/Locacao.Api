@@ -29,7 +29,7 @@ public class LocacaoController : LocacaoControllerBase
             if (!solicitacao.IsValid())
                 throw new Exception(solicitacao.RetornarErros());
 
-            _locacaoServices.VerificarDisponibilidadeERealizarASolicitacaoDeLocacao(solicitacao, RetornarUsuarioLogadoId());
+            _locacaoServices.VerificarDisponibilidadeERealizarASolicitacaoDeLocacao(solicitacao, RetornarUsuarioLogadoId);
 
             return new { sucesso = true };
         }

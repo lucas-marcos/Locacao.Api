@@ -5,10 +5,12 @@ namespace Locacao.Api.Controllers;
 
 public class LocacaoControllerBase : ControllerBase
 {
-    public string RetornarUsuarioLogadoId()
+    public string RetornarUsuarioLogadoId
     {
-        var identity = HttpContext.User.Identity as ClaimsIdentity;
-        return identity?.FindFirst("UsuarioId")?.Value ?? throw new Exception("Não foi encontrado o usuário");
+        get
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            return identity?.FindFirst("UsuarioId")?.Value ?? throw new Exception("Não foi encontrado o usuário");
+        }
     }
-    
 }
