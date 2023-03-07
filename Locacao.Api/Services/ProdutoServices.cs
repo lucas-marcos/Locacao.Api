@@ -30,6 +30,7 @@ public class ProdutoServices : IProdutoServices
         produtoCadastrado.SetDescricao(produto.Descricao);
         produtoCadastrado.SetPreco(produto.Preco);
         produtoCadastrado.SetImagem(produto.Imagem);
+        produtoCadastrado.SetQuantidade(produto.Quantidade);
 
         _produtoRepository.Atualizar(produtoCadastrado);
         _produtoRepository.Salvar();
