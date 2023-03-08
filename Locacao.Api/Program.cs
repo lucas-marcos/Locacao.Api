@@ -67,7 +67,6 @@ void InjecaoDepedenciaDosServices(IServiceCollection services)
 {
     services.AddScoped<IAutenticacaoServices, AutenticacaoServices>();
     services.AddScoped<IProdutoServices, ProdutoServices>();
-    services.AddScoped<IEstoqueServices, EstoqueServices>();
     services.AddScoped<ITokenServices, TokenServices>();
     services.AddScoped<ILocacaoServices, LocacaoServices>();
 }

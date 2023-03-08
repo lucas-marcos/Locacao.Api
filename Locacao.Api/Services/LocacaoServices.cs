@@ -2,6 +2,7 @@ using Locacao.Api.Data.Interfaces;
 using Locacao.Api.Models;
 using Locacao.Api.Models.Dto;
 using Locacao.Api.Models.Enums;
+using Locacao.Api.Models.TO;
 using Locacao.Api.Services.Interfaces;
 
 namespace Locacao.Api.Services;
@@ -54,7 +55,7 @@ public class LocacaoServices : ILocacaoServices
         locacao.SetDataDoEvento(solicitacaoDeLocacao.DataDoEvento);
         locacao.SetEnderecoDoEvento(endereco.Rua, endereco.Bairro, endereco.Cidade, endereco.Uf, endereco.Cep);
         locacao.SetUsuarioQueSolicitouId(usuarioQueSolicitou);
-        
+
         _locacaoRepository.Adicionar(locacao);
         _locacaoRepository.Salvar();
     }
@@ -62,4 +63,29 @@ public class LocacaoServices : ILocacaoServices
     public List<Models.Locacao> RetornarLocacoes() => _locacaoRepository.RetornarLocacoes().ToList();
 
     public List<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao) => _locacaoRepository.RetornarLocacoesPeloStatusDaLocacao(statusDaLocacao).ToList();
+
+    public List<ProdutoDisponivelTO> RetornarProdutosDisponiveisPelaData(DateTime data)
+    {
+        var disponibilidadeDosProdutos = new List<ProdutoDisponivelTO>();
+
+        var produtos = _produtoServices.ListarProdutos();
+
+        foreach (var produto in produtos)
+        {
+            var qtdDisponivel = RetornarQtdDisponivelDoProdutoParaAData(produto.Id, data);
+
+            disponibilidadeDosProdutos.Add(new(produto, produto.Quantidade, qtdDisponivel));
+        }
+
+        return disponibilidadeDosProdutos;
+    }
+
+    public ProdutoDisponivelTO RetornarProdutoDisponivelPeloProdutoIdEData(int produtoId, DateTime data)
+    {
+        var produto = _produtoServices.RetornarProduto(produtoId) ?? throw new Exception("Não foi possível encontrar o produto informado");
+
+        var qtdDisponivel = RetornarQtdDisponivelDoProdutoParaAData(produto.Id, data);
+
+        return new(produto, produto.Quantidade, qtdDisponivel);
+    }
 }

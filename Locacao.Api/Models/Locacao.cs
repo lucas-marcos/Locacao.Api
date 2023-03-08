@@ -5,10 +5,7 @@ namespace Locacao.Api.Models;
 public class Locacao : Entity
 {
     public DateTime DataSolicitacao { get; private set; }
-
     public DateTime DataDoEvento { get; private set; }
-
-    // public ICollection<Produto> Produtos { get; private set; }
     public ICollection<ProdutoPorLocacao> ProdutoPorLocacao { get; private set; }
     public StatusDaLocacao StatusDaLocacao { get; private set; }
     public ApplicationUser UsuarioQueSolicitou { get; private set; }

@@ -70,4 +70,34 @@ public class LocacaoController : LocacaoControllerBase
             return new { sucesso = false, mensagem = "Não foi possível listar as locações pelo seguinte motivo: " + ex.Message };
         }
     }
+
+    [HttpGet, Route("produtos-disponiveis/{data}")]
+    public object RetornarProdutosDisponiveisPorData(DateTime data)
+    {
+        try
+        {
+            var produtosDisponiveis = _locacaoServices.RetornarProdutosDisponiveisPelaData(data);
+
+            return new { sucesso = true, produtos = produtosDisponiveis };
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Não foi possível retornar os produtos pelo seguinte motivo: " + ex.Message };
+        }
+    }
+
+    [HttpGet, Route("produtos-disponiveis/{produtoId}/{data}")]
+    public object RetornarProdutosDisponiveisPorProdutoIdEData(int produtoId, DateTime data)
+    {
+        try
+        {
+            var produto = _locacaoServices.RetornarProdutoDisponivelPeloProdutoIdEData(produtoId, data);
+
+            return new { sucesso = true, produto };
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Não foi possível retornar os produtos pelo seguinte motivo: " + ex.Message };
+        }
+    }
 }
