@@ -33,6 +33,7 @@ public class LocacaoRepository : Repository<Models.Locacao>, ILocacaoRepository
     {
         return BuscarTodos()
             .Include(a => a.EnderecoDoEvento)
+            .Include(a => a.UsuarioQueSolicitou)
             .Include(a => a.ProdutoPorLocacao)
             .ThenInclude(a => a.Produto);
     }
