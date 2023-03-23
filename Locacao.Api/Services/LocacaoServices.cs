@@ -45,8 +45,6 @@ public class LocacaoServices : ILocacaoServices
         {
             var produtoCadastrado = _produtoServices.RetornarProduto(produtoSolicitado.ProdutoId) ?? throw new Exception("Não foi possível encontar um dos produtos informados");
 
-            ValidarSePodeLocar(produtoCadastrado, solicitacaoDeLocacao.DataDoEvento, produtoSolicitado.Quantidade);
-
             locacao.AddProdutoPorLocacao(produtoCadastrado, produtoSolicitado.Quantidade);
         }
 
