@@ -37,4 +37,10 @@ public class LocacaoRepository : Repository<Models.Locacao>, ILocacaoRepository
             .Include(a => a.ProdutoPorLocacao)
             .ThenInclude(a => a.Produto);
     }
+    
+    public IQueryable<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId)
+    {
+        return RetornarLocacoes()
+            .Where(a => a.UsuarioQueSolicitouId == usuarioId);
+    }
 }

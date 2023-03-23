@@ -59,6 +59,7 @@ public class LocacaoServices : ILocacaoServices
     }
 
     public List<Models.Locacao> RetornarLocacoes() => _locacaoRepository.RetornarLocacoes().ToList();
+    public List<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId) => _locacaoRepository.RetornarLocacoesPeloUsuarioId(usuarioId).ToList();
 
     public List<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao) => _locacaoRepository.RetornarLocacoesPeloStatusDaLocacao(statusDaLocacao).ToList();
 

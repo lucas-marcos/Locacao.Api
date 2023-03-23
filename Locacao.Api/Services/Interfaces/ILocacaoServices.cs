@@ -11,4 +11,5 @@ public interface ILocacaoServices
     List<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao);
     List<ProdutoDisponivelTO> RetornarProdutosDisponiveisPelaData(DateTime data);
     ProdutoDisponivelTO RetornarProdutoDisponivelPeloProdutoIdEData(int produtoId, DateTime data);
+    List<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId);
 }

@@ -55,7 +55,23 @@ public class LocacaoController : LocacaoControllerBase
         }
     }
 
-    [HttpGet, Route("{statusDaLocacao}")]
+    [HttpGet, Route("{usuarioId}")]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    public object RetornarLocacoesPeloUsuarioId(string usuarioId)
+    {
+        try
+        {
+            var locacoes = _locacaoServices.RetornarLocacoesPeloUsuarioId(usuarioId);
+
+            return new { sucesso = true, locacoes = _mapper.Map<List<LocacaoTO>>(locacoes) };
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Não foi possível listar as locações pelo seguinte motivo: " + ex.Message };
+        }
+    }
+
+    [HttpGet, Route("status/{statusDaLocacao}")]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object RetornarLocacoesPelosStatus(StatusDaLocacao statusDaLocacao)
     {

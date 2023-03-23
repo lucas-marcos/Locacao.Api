@@ -11,5 +11,6 @@ public interface ILocacaoRepository : IRepository<Models.Locacao>
 
     IQueryable<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao);
     IQueryable<Models.Locacao> RetornarLocacoes();
+    IQueryable<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId);
 
 }
