@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Locacao.Api.Framework;
+using Locacao.Api.Models.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace Locacao.Api.Models;
@@ -28,4 +30,5 @@ public class ApplicationUser : IdentityUser
     }
 
     public void SetToken(string token) => Token = token;
+    public bool EhAdministrador() => Role.ToEnum<TipoRoles>() == TipoRoles.Administrador;
 }

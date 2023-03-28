@@ -40,12 +40,12 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpGet]
-    [CustomAuthorizationFilter(TipoRoles.Administrador)]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarLocacoes()
     {
         try
         {
-            var locacoes = _locacaoServices.RetornarLocacoes();
+            var locacoes = _locacaoServices.RetornarLocacoes(UsuarioLogado);
 
             return new { sucesso = true, locacoes = _mapper.Map<List<LocacaoTO>>(locacoes) };
         }

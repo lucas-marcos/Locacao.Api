@@ -58,7 +58,14 @@ public class LocacaoServices : ILocacaoServices
         _locacaoRepository.Salvar();
     }
 
-    public List<Models.Locacao> RetornarLocacoes() => _locacaoRepository.RetornarLocacoes().ToList();
+    public List<Models.Locacao> RetornarLocacoes(ApplicationUser usuario)
+    {
+        if (usuario.EhAdministrador())
+            return _locacaoRepository.RetornarLocacoes().ToList();
+
+        return RetornarLocacoesPeloUsuarioId(usuario.Id);
+    }
+
     public List<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId) => _locacaoRepository.RetornarLocacoesPeloUsuarioId(usuarioId).ToList();
 
     public List<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao) => _locacaoRepository.RetornarLocacoesPeloStatusDaLocacao(statusDaLocacao).ToList();
