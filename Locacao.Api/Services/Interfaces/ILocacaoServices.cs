@@ -13,4 +13,5 @@ public interface ILocacaoServices
     ProdutoDisponivelTO RetornarProdutoDisponivelPeloProdutoIdEData(int produtoId, DateTime data);
     List<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId);
     List<Models.Locacao> RetornarLocacoes(ApplicationUser usuario);
+    void EditarLocacao(Models.Locacao locacao);
 }

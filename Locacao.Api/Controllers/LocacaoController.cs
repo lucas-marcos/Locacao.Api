@@ -39,6 +39,24 @@ public class LocacaoController : LocacaoControllerBase
         }
     }
 
+    [HttpPut]
+    public object EditarSolicitacaoDeLocacao(LocacaoEditarSolicitacaoDTO solicitacao)
+    {
+        try
+        {
+            if (!solicitacao.IsValid())
+                throw new Exception(solicitacao.RetornarErros());
+
+            _locacaoServices.EditarLocacao(_mapper.Map<Models.Locacao>(solicitacao));
+            
+            return new { sucesso = true };
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Não foi possível realizar a solicitação pelo seguinte motivo: " + ex.Message };
+        }
+    }
+    
     [HttpGet]
     [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarLocacoes()

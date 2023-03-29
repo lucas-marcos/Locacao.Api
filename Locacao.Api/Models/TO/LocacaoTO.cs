@@ -1,5 +1,3 @@
-using Locacao.Api.Models.Enums;
-
 namespace Locacao.Api.Models.TO;
 
 public class LocacaoTO
@@ -10,5 +8,5 @@ public class LocacaoTO
     public List<Produto> Produtos { get; set; }
     public string UsuarioQueSolicitou { get; set; }
     public Endereco enderecoDoEvento { get; set; }
-    public StatusDaLocacao StatusDaLocacao { get; set; }
+    public string StatusDaLocacao { get; set; }
 }

@@ -94,4 +94,18 @@ public class LocacaoServices : ILocacaoServices
 
         return new(produto, produto.Quantidade, qtdDisponivel);
     }
+
+    public void EditarLocacao(Models.Locacao locacao)
+    {
+        var locacaoParaAlterar = _locacaoRepository.BuscarPorId(locacao.Id) ?? throw new Exception("Não foi possível encontrar o produto");
+
+        var enderecoParaAtualizar = locacao.EnderecoDoEvento;
+        
+        locacaoParaAlterar.SetStatusDaLocacao(locacao.StatusDaLocacao);
+        locacaoParaAlterar.SetEnderecoDoEvento(enderecoParaAtualizar.Rua, enderecoParaAtualizar.Bairro, enderecoParaAtualizar.Cidade, enderecoParaAtualizar.Uf, enderecoParaAtualizar.Cep);
+        locacaoParaAlterar.SetDataDoEvento(locacao.DataDoEvento);
+        
+        _locacaoRepository.Atualizar(locacaoParaAlterar);
+        _locacaoRepository.Salvar();
+    }
 }

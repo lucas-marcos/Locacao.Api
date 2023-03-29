@@ -43,4 +43,5 @@ public class Locacao : Entity
     public void SetDataDoEvento(DateTime dataDoEvento) => DataDoEvento = dataDoEvento;
 
     public void SetUsuarioQueSolicitouId(string usuarioQueSolicitouId) => UsuarioQueSolicitouId = usuarioQueSolicitouId;
+    public void SetStatusDaLocacao(StatusDaLocacao status) => StatusDaLocacao = status;
 }
