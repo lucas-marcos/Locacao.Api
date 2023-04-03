@@ -17,7 +17,7 @@ public class Locacao : Entity
     public Locacao()
     {
         DataSolicitacao = DateTime.Now;
-        StatusDaLocacao = StatusDaLocacao.EmAnalise;
+        StatusDaLocacao = StatusDaLocacao.Andamento;
     }
 
     public Locacao(DateTime dataDoEvento, List<ProdutoPorLocacao> produtoPorLocacao, Endereco enderecoDoEvento, ApplicationUser usuarioQueSolicitou) : this()

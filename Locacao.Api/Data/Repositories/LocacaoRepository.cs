@@ -17,7 +17,7 @@ public class LocacaoRepository : Repository<Models.Locacao>, ILocacaoRepository
             .Where(a => a.DataSolicitacao.Day == dataDaReserva.Day 
                         && a.DataSolicitacao.Month == dataDaReserva.Month 
                         && a.DataSolicitacao.Year == dataDaReserva.Year
-                        && a.StatusDaLocacao == StatusDaLocacao.AnaliseeAceita)
+                        && a.StatusDaLocacao == StatusDaLocacao.Aceito)
             .SelectMany(a => a.ProdutoPorLocacao)
             .Where(a => a.ProdutoId == produtoId)
             .Sum(a => a.Quantidade);
