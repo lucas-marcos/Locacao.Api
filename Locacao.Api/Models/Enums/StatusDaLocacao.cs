@@ -8,6 +8,6 @@ public enum StatusDaLocacao
     Andamento = 0,
     [Description("Aceito")]
     Aceito = 1,
-    [Description("Cancelado")]
+    [Description("AnaliseRecusada")]
     AnaliseRecusada = 2
 }
