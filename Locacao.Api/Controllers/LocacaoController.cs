@@ -40,6 +40,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpPut]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object EditarSolicitacaoDeLocacao(LocacaoEditarSolicitacaoDTO solicitacao)
     {
         try

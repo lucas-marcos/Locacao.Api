@@ -21,7 +21,7 @@ public class MappingProfile : Profile
         CreateMap<Locacao, LocacaoTO>()
             .ForMember(dest => dest.UsuarioQueSolicitou, opt => opt.MapFrom(src => src.UsuarioQueSolicitou.Nome))
             .ForMember(dest => dest.enderecoDoEvento, opt => opt.MapFrom(src => src.EnderecoDoEvento))
-            .ForMember(dest => dest.Produtos, opt => opt.MapFrom(src => src.ProdutoPorLocacao.Select(pl => pl.Produto).ToList()))
+            .ForMember(dest => dest.ProdutoPorLocacao, opt => opt.MapFrom(src => src.ProdutoPorLocacao.ToList()))
             .ForMember(dest => dest.StatusDaLocacao, opt => opt.MapFrom(src => src.StatusDaLocacao.GetDescription()));
 
         CreateMap<LocacaoEditarSolicitacaoDTO, Locacao>()
