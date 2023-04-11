@@ -22,7 +22,8 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.UsuarioQueSolicitou, opt => opt.MapFrom(src => src.UsuarioQueSolicitou.Nome))
             .ForMember(dest => dest.enderecoDoEvento, opt => opt.MapFrom(src => src.EnderecoDoEvento))
             .ForMember(dest => dest.ProdutoPorLocacao, opt => opt.MapFrom(src => src.ProdutoPorLocacao.ToList()))
-            .ForMember(dest => dest.StatusDaLocacao, opt => opt.MapFrom(src => src.StatusDaLocacao.GetDescription()));
+            .ForMember(dest => dest.StatusDaLocacao, opt => opt.MapFrom(src => src.StatusDaLocacao.GetDescription()))
+            .ForMember(dest => dest.StatusDaSolicitacao, opt => opt.MapFrom(src => src.StatusDaLocacao.GetStatusDaSolicitacao()));
 
         CreateMap<LocacaoEditarSolicitacaoDTO, Locacao>()
             .ForMember(dest => dest.StatusDaLocacao, opt => opt.MapFrom(src => src.Status.ToEnum<StatusDaLocacao>()))

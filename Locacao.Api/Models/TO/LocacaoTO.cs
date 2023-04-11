@@ -9,4 +9,5 @@ public class LocacaoTO
     public string UsuarioQueSolicitou { get; set; }
     public Endereco enderecoDoEvento { get; set; }
     public string StatusDaLocacao { get; set; }
+    public string StatusDaSolicitacao { get; set; }
 }
