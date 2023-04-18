@@ -9,7 +9,7 @@ public interface ILocacaoRepository : IRepository<Models.Locacao>
     /// </summary>
     int RetornarQtdLocadoDoProdutoPelaData(int produtoId, DateTime dataDaReserva);
 
-    IQueryable<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao);
+    IQueryable<Models.Locacao> RetornarLocacoesPeloStatusDaSolicitacao(StatusDaSolicitacao statusDaSolicitacao);
     IQueryable<Models.Locacao> RetornarLocacoes();
     IQueryable<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId);
 

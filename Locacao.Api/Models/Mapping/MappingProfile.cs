@@ -20,13 +20,14 @@ public class MappingProfile : Profile
 
         CreateMap<Locacao, LocacaoTO>()
             .ForMember(dest => dest.UsuarioQueSolicitou, opt => opt.MapFrom(src => src.UsuarioQueSolicitou.Nome))
-            .ForMember(dest => dest.enderecoDoEvento, opt => opt.MapFrom(src => src.EnderecoDoEvento))
+            .ForMember(dest => dest.EnderecoDoEvento, opt => opt.MapFrom(src => src.EnderecoDoEvento))
             .ForMember(dest => dest.ProdutoPorLocacao, opt => opt.MapFrom(src => src.ProdutoPorLocacao.ToList()))
-            .ForMember(dest => dest.StatusDaLocacao, opt => opt.MapFrom(src => src.StatusDaLocacao.GetDescription()))
-            .ForMember(dest => dest.StatusDaSolicitacao, opt => opt.MapFrom(src => src.StatusDaLocacao.GetStatusDaSolicitacao()));
+            .ForMember(dest => dest.StatusDaLocacao, opt => opt.MapFrom(src => src.StatusDaLocacao.GetHashCode()))
+            .ForMember(dest => dest.StatusDaSolicitacao, opt => opt.MapFrom(src => src.StatusDaSolicitacao.GetHashCode()));
 
         CreateMap<LocacaoEditarSolicitacaoDTO, Locacao>()
-            .ForMember(dest => dest.StatusDaLocacao, opt => opt.MapFrom(src => src.Status.ToEnum<StatusDaLocacao>()))
+            // .ForMember(dest => dest.StatusDaLocacao, opt => opt.MapFrom(src => src.Status.ToEnum<StatusDaLocacao>()))
+            .ForMember(dest => dest.StatusDaSolicitacao, opt => opt.MapFrom(src => src.Status.ToEnum<StatusDaSolicitacao>()))
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
             .ForMember(dest => dest.DataDoEvento, opt => opt.MapFrom(src => src.DataDoEvento))
             .ForPath(dest => dest.EnderecoDoEvento.Bairro, opt => opt.MapFrom(src => src.EnderecoDoEvento.Bairro))
