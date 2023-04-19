@@ -1,5 +1,6 @@
 using AutoMapper;
 using Locacao.Api.Controllers.Filters;
+using Locacao.Api.Framework;
 using Locacao.Api.Models.Dto;
 using Locacao.Api.Models.Enums;
 using Locacao.Api.Models.TO;
@@ -49,7 +50,7 @@ public class LocacaoController : LocacaoControllerBase
                 throw new Exception(solicitacao.RetornarErros());
 
             _locacaoServices.EditarLocacao(_mapper.Map<Models.Locacao>(solicitacao));
-            
+
             return new { sucesso = true };
         }
         catch (Exception ex)
@@ -57,7 +58,7 @@ public class LocacaoController : LocacaoControllerBase
             return new { sucesso = false, mensagem = "Não foi possível realizar a solicitação pelo seguinte motivo: " + ex.Message };
         }
     }
-    
+
     [HttpGet]
     [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarLocacoes()
@@ -98,7 +99,7 @@ public class LocacaoController : LocacaoControllerBase
         {
             var locacoes = _locacaoServices.RetornarLocacoesPeloStatusDaSolicitacao(statusDaSolicitacao);
 
-            return new { sucesso = true, locacoes };
+            return new { sucesso = true, locacoes = _mapper.Map<List<LocacaoTO>>(locacoes) };
         }
         catch (Exception ex)
         {
@@ -107,6 +108,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpGet, Route("produtos-disponiveis/{data}")]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarProdutosDisponiveisPorData(DateTime data)
     {
         try
@@ -122,6 +124,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpGet, Route("produtos-disponiveis/{produtoId}/{data}")]
+    [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarProdutosDisponiveisPorProdutoIdEData(int produtoId, DateTime data)
     {
         try
@@ -133,6 +136,22 @@ public class LocacaoController : LocacaoControllerBase
         catch (Exception ex)
         {
             return new { sucesso = false, mensagem = "Não foi possível retornar os produtos pelo seguinte motivo: " + ex.Message };
+        }
+    }
+
+    [HttpPatch, Route("alterar-status-da-locacao")]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
+    public object EditarStatusDaLocacao(EditarStatusDaLocacaoDTO locacaoDto)
+    {
+        try
+        {
+            var locacao = _locacaoServices.EditarStatusDaLocacao(locacaoDto.LocacaoId, locacaoDto.StatusDaLocacao.ToEnum<StatusDaLocacao>());
+            
+            return new { sucesso = true,  locacao = _mapper.Map<LocacaoTO>(locacao)};
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Não foi possível editar a locação pelo seguinte motivo: " + ex.Message };
         }
     }
 }

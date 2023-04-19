@@ -109,4 +109,16 @@ public class LocacaoServices : ILocacaoServices
         _locacaoRepository.Atualizar(locacaoParaAlterar);
         _locacaoRepository.Salvar();
     }
+
+    public Models.Locacao EditarStatusDaLocacao(int locacaoId, StatusDaLocacao statusDaLocacao)
+    {
+        var locacao = _locacaoRepository.BuscarPorId(locacaoId) ?? throw new Exception("Não foi possível encontrar o produto informado");
+
+        locacao.SetStatusDaLocacao(statusDaLocacao);
+        
+        _locacaoRepository.Atualizar(locacao);
+        _locacaoRepository.Salvar();
+
+        return locacao;
+    }
 }
