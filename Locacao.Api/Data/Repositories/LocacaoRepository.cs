@@ -17,16 +17,16 @@ public class LocacaoRepository : Repository<Models.Locacao>, ILocacaoRepository
             .Where(a => a.DataSolicitacao.Day == dataDaReserva.Day 
                         && a.DataSolicitacao.Month == dataDaReserva.Month 
                         && a.DataSolicitacao.Year == dataDaReserva.Year
-                        && a.StatusDaLocacao == StatusDaLocacao.Aceito)
+                        && a.StatusDaSolicitacao == StatusDaSolicitacao.Aceito)
             .SelectMany(a => a.ProdutoPorLocacao)
             .Where(a => a.ProdutoId == produtoId)
             .Sum(a => a.Quantidade);
     }
-
-    public IQueryable<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao)
+    
+    public IQueryable<Models.Locacao> RetornarLocacoesPeloStatusDaSolicitacao(StatusDaSolicitacao statusDaSolicitacao)
     {
         return RetornarLocacoes()
-            .Where(a => a.StatusDaLocacao == statusDaLocacao);
+            .Where(a => a.StatusDaSolicitacao == statusDaSolicitacao);
     }
 
     public IQueryable<Models.Locacao> RetornarLocacoes()

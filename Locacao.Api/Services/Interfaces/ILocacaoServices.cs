@@ -8,7 +8,7 @@ namespace Locacao.Api.Services.Interfaces;
 public interface ILocacaoServices
 {
     void VerificarDisponibilidadeERealizarASolicitacaoDeLocacao(LocacaoCriarSolicitacaoDTO solicitacaoDeLocacao, string usuarioQueSolicitou);
-    List<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao);
+    List<Models.Locacao> RetornarLocacoesPeloStatusDaSolicitacao(StatusDaSolicitacao statusDaSolicitacao);
     List<ProdutoDisponivelTO> RetornarProdutosDisponiveisPelaData(DateTime data);
     ProdutoDisponivelTO RetornarProdutoDisponivelPeloProdutoIdEData(int produtoId, DateTime data);
     List<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId);

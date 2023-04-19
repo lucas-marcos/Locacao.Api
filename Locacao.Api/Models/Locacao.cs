@@ -8,6 +8,7 @@ public class Locacao : Entity
     public DateTime DataDoEvento { get; private set; }
     public ICollection<ProdutoPorLocacao> ProdutoPorLocacao { get; private set; }
     public StatusDaLocacao StatusDaLocacao { get; private set; }
+    public StatusDaSolicitacao StatusDaSolicitacao { get; private set; }
     public ApplicationUser UsuarioQueSolicitou { get; private set; }
     public string? UsuarioQueSolicitouId { get; private set; }
     public Endereco EnderecoDoEvento { get; private set; }
@@ -17,7 +18,8 @@ public class Locacao : Entity
     public Locacao()
     {
         DataSolicitacao = DateTime.Now;
-        StatusDaLocacao = StatusDaLocacao.Andamento;
+        StatusDaLocacao = StatusDaLocacao.AEntregar;
+        StatusDaSolicitacao = StatusDaSolicitacao.Andamento;
     }
 
     public Locacao(DateTime dataDoEvento, List<ProdutoPorLocacao> produtoPorLocacao, Endereco enderecoDoEvento, ApplicationUser usuarioQueSolicitou) : this()
@@ -44,4 +46,5 @@ public class Locacao : Entity
 
     public void SetUsuarioQueSolicitouId(string usuarioQueSolicitouId) => UsuarioQueSolicitouId = usuarioQueSolicitouId;
     public void SetStatusDaLocacao(StatusDaLocacao status) => StatusDaLocacao = status;
+    public void SetStatusDaSolicitacao(StatusDaSolicitacao status) => StatusDaSolicitacao = status;
 }

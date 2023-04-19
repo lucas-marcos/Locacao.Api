@@ -90,13 +90,13 @@ public class LocacaoController : LocacaoControllerBase
         }
     }
 
-    [HttpGet, Route("status/{statusDaLocacao}")]
+    [HttpGet, Route("status/{statusDaSolicitacao}")]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    public object RetornarLocacoesPelosStatus(StatusDaLocacao statusDaLocacao)
+    public object RetornarLocacoesPelosStatusDaSolicitacao(StatusDaSolicitacao statusDaSolicitacao)
     {
         try
         {
-            var locacoes = _locacaoServices.RetornarLocacoesPeloStatusDaLocacao(statusDaLocacao);
+            var locacoes = _locacaoServices.RetornarLocacoesPeloStatusDaSolicitacao(statusDaSolicitacao);
 
             return new { sucesso = true, locacoes };
         }

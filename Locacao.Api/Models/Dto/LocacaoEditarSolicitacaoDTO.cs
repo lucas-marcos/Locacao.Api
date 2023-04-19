@@ -6,7 +6,7 @@ namespace Locacao.Api.Models.Dto;
 public class LocacaoEditarSolicitacaoDTO : LocacaoDTOBase
 {
     public int Id { get; set; }
-    public string Status { get; set; }
+    public string StatusDaSolicitacao { get; set; }
     
     private List<ValidationFailure> Erros { get; set; }
 

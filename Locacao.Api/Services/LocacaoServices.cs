@@ -68,7 +68,7 @@ public class LocacaoServices : ILocacaoServices
 
     public List<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId) => _locacaoRepository.RetornarLocacoesPeloUsuarioId(usuarioId).ToList();
 
-    public List<Models.Locacao> RetornarLocacoesPeloStatusDaLocacao(StatusDaLocacao statusDaLocacao) => _locacaoRepository.RetornarLocacoesPeloStatusDaLocacao(statusDaLocacao).ToList();
+    public List<Models.Locacao> RetornarLocacoesPeloStatusDaSolicitacao(StatusDaSolicitacao statusDaSolicitacao) => _locacaoRepository.RetornarLocacoesPeloStatusDaSolicitacao(statusDaSolicitacao).ToList();
 
     public List<ProdutoDisponivelTO> RetornarProdutosDisponiveisPelaData(DateTime data)
     {
@@ -102,6 +102,7 @@ public class LocacaoServices : ILocacaoServices
         var enderecoParaAtualizar = locacao.EnderecoDoEvento;
         
         locacaoParaAlterar.SetStatusDaLocacao(locacao.StatusDaLocacao);
+        locacaoParaAlterar.SetStatusDaSolicitacao(locacao.StatusDaSolicitacao);
         locacaoParaAlterar.SetEnderecoDoEvento(enderecoParaAtualizar.Rua, enderecoParaAtualizar.Bairro, enderecoParaAtualizar.Cidade, enderecoParaAtualizar.Uf, enderecoParaAtualizar.Cep);
         locacaoParaAlterar.SetDataDoEvento(locacao.DataDoEvento);
         
