@@ -1,3 +1,7 @@
+Crie uma pasta "appsettings.Development.json", e coloque a string de conexão com o banco de dados.
+
+Por exemplo:
+
 {
   "ConnectionStrings": {
     "DefaultConnection": "Password=0000;Persist Security Info=True;User ID=sa;Initial Catalog=LocacaoDb;Data Source=DESKTOP-03NM2TV; TrustServerCertificate=True"

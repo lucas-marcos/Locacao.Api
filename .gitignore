@@ -348,3 +348,6 @@ mono_crash*
 obj/
 
 *.dll
+
+appsettings.json
+appsettings.Development.json
