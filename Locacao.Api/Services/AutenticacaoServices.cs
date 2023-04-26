@@ -1,4 +1,6 @@
-﻿using Locacao.Api.Models;
+﻿using Locacao.Api.Framework;
+using Locacao.Api.Models;
+using Locacao.Api.Models.Enums;
 using Locacao.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
@@ -35,7 +37,7 @@ public class AutenticacaoServices : IAutenticacaoServices
 
     public ApplicationUser CriarUsuario(ApplicationUser usuario, string senha)
     {
-        var user = new ApplicationUser(usuario.Nome, usuario.Sobrenome, usuario.Role)
+        var user = new ApplicationUser(usuario.Nome, usuario.Sobrenome, string.IsNullOrWhiteSpace(usuario.Role) ? TipoRoles.Usuario.GetDescription() : usuario.Role)
         {
             UserName = usuario.Email,
             Email = usuario.Email,

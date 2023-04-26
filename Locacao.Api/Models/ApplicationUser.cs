@@ -7,13 +7,12 @@ namespace Locacao.Api.Models;
 
 public class ApplicationUser : IdentityUser
 {
-     public string Nome { get; private set; }
-    public string Sobrenome { get; private set; }
+    public string? Nome { get; private set; }
+    public string? Sobrenome { get; private set; }
     public DateTime DataDeCriacao { get; private set; }
     public string Role { get; private set; }
-    
-    [NotMapped]
-    public string Token { get; private  set; }
+
+    [NotMapped] public string Token { get; private set; }
 
     public ApplicationUser()
     {
@@ -25,7 +24,7 @@ public class ApplicationUser : IdentityUser
         Nome = nome;
         Sobrenome = sobrenome;
         Role = role;
-        
+
         DataDeCriacao = DateTime.Now;
     }
 
