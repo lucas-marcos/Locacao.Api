@@ -10,4 +10,6 @@ public class UsuarioRepository : Repository<ApplicationUser>, IUsuarioRepository
     }
 
     public ApplicationUser? BuscarPorId(string id) => DbSet.FirstOrDefault(a => a.Id == id);
+    
+    public IQueryable<ApplicationUser> BuscarTodosPelaRole(string role) => DbSet.Where(a => a.Role == role);
 }

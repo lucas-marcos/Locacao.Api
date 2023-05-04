@@ -14,4 +14,8 @@ public class UsuarioServices : IUsuarioServices
     }
 
     public ApplicationUser BuscarPorId(string id) => _usuarioRepository.BuscarPorId(id) ?? throw new Exception("Não foi possível encontrar o usuário");
+
+    public List<ApplicationUser> BuscarTodos() => _usuarioRepository.BuscarTodos().ToList();
+    
+    public List<ApplicationUser> BuscarTodosPelaRole(string role) => _usuarioRepository.BuscarTodosPelaRole(role).ToList();
 }

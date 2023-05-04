@@ -18,6 +18,13 @@ public class MappingProfile : Profile
         CreateMap<ApplicationUserLogarDTO, ApplicationUser>();
         CreateMap<ApplicationUser, ApplicationUserTO>();
 
+        CreateMap<ApplicationUser, UsuariosParaListarTO>()
+            .ForMember(dest => dest.Nome, opt => opt.MapFrom(src => src.Nome))
+            .ForMember(dest => dest.Sobrenome, opt => opt.MapFrom(src => src.Sobrenome))
+            .ForMember(dest => dest.Role, opt => opt.MapFrom(src => src.Role))
+            .ForMember(dest => dest.DataDeCriacao, opt => opt.MapFrom(src => src.DataDeCriacao))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email));
+        
         CreateMap<Locacao, LocacaoTO>()
             .ForMember(dest => dest.UsuarioQueSolicitou, opt => opt.MapFrom(src => src.UsuarioQueSolicitou.Nome))
             .ForMember(dest => dest.enderecoDoEvento, opt => opt.MapFrom(src => src.EnderecoDoEvento))
