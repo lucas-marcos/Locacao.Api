@@ -21,8 +21,8 @@ public class AnaliseDeDadosController
     /// <param name="dataInicial">Data inicial do período a ser analisado</param>
     /// <param name="dataFinal">Data final do período a ser analisado</param>
     /// <returns>Retorna um objeto com a propriedade "sucesso" indicando se a operação foi concluída com êxito e a propriedade "resumoDaLocacao" contendo as informações do resumo por produto das locações concluídas</returns>
-    [HttpGet, Route("resumo-das-locacoes-concluidas")]
-    [CustomAuthorizationFilter(TipoRoles.Administrador)]
+    [HttpGet, Route("resumo-das-locacoes-concluidas/{dataInicial}/{dataFinal}")]
+    // [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object RetornarAnaliseDeLocacao(DateTime dataInicial, DateTime dataFinal)
     {
         try
