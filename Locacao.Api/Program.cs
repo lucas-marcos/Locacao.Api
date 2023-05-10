@@ -70,6 +70,7 @@ void InjecaoDepedenciaDosServices(IServiceCollection services)
     services.AddScoped<ITokenServices, TokenServices>();
     services.AddScoped<ILocacaoServices, LocacaoServices>();
     services.AddScoped<IUsuarioServices, UsuarioServices>();
+    services.AddScoped<IAnaliseDeDadosServices, AnaliseDeDadosServices>();
 }
 
 void InjecaoDepedenciaDosRepositories(IServiceCollection services)

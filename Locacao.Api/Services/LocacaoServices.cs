@@ -20,6 +20,8 @@ public class LocacaoServices : ILocacaoServices
 
     private int RetornarQtdReservadoDoProdutoPelaData(int produtoId, DateTime dataDaReserva) => _locacaoRepository.RetornarQtdLocadoDoProdutoPelaData(produtoId, dataDaReserva);
 
+    public IQueryable<Models.Locacao> RetornarLocacoes() => _locacaoRepository.RetornarLocacoes(); 
+
     private int RetornarQtdDisponivelDoProdutoParaAData(int produtoId, DateTime dataDoEvento)
     {
         var qtdDoProdutoEmEstoque = _produtoServices.RetornarProduto(produtoId).Quantidade;
@@ -61,7 +63,7 @@ public class LocacaoServices : ILocacaoServices
     public List<Models.Locacao> RetornarLocacoes(ApplicationUser usuario)
     {
         if (usuario.EhAdministrador())
-            return _locacaoRepository.RetornarLocacoes().ToList();
+            return RetornarLocacoes().ToList();
 
         return RetornarLocacoesPeloUsuarioId(usuario.Id);
     }
@@ -120,5 +122,13 @@ public class LocacaoServices : ILocacaoServices
         _locacaoRepository.Salvar();
 
         return locacao;
+    }
+
+    public List<ProdutoPorLocacao> RetornarTodosOsProdutosConcluidosDentroDoPeriodo(DateTime dataInicial, DateTime dataFinal)
+    {
+        return RetornarLocacoes()
+            .Where(a => a.DataDoEvento >= dataInicial && a.DataDoEvento <= dataFinal && a.StatusDaLocacao == StatusDaLocacao.Concluido)
+            .SelectMany(a => a.ProdutoPorLocacao)
+            .ToList();
     }
 }

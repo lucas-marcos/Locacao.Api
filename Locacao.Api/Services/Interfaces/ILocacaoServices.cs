@@ -15,4 +15,6 @@ public interface ILocacaoServices
     List<Models.Locacao> RetornarLocacoes(ApplicationUser usuario);
     void EditarLocacao(Models.Locacao locacao);
     Models.Locacao EditarStatusDaLocacao(int locacaoId, StatusDaLocacao statusDaLocacao);
+    IQueryable<Models.Locacao> RetornarLocacoes();
+    List<ProdutoPorLocacao> RetornarTodosOsProdutosConcluidosDentroDoPeriodo(DateTime dataInicial, DateTime dataFinal);
 }

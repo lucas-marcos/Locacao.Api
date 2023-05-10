@@ -71,7 +71,6 @@ public class ProdutoController
         }
         catch (Exception ex)
         {
-
             return new { sucesso = false, mensagem = "Nãa foi possível deletar o produto pelo seguinte motivo: " + ex.Message };
         }
     }
