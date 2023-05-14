@@ -22,7 +22,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpPost]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    // [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object CriarSolicitacaoDeLocacao(LocacaoCriarSolicitacaoDTO solicitacao)
     {
         try
@@ -41,7 +41,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpPut]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    // [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object EditarSolicitacaoDeLocacao(LocacaoEditarSolicitacaoDTO solicitacao)
     {
         try
@@ -60,7 +60,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpGet]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    // [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarLocacoes()
     {
         try
@@ -76,7 +76,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpGet, Route("{usuarioId}")]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    // [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarLocacoesPeloUsuarioId(string usuarioId)
     {
         try
@@ -92,7 +92,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpGet, Route("status/{statusDaSolicitacao}")]
-    [CustomAuthorizationFilter(TipoRoles.Administrador)]
+    // [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object RetornarLocacoesPelosStatusDaSolicitacao(StatusDaSolicitacao statusDaSolicitacao)
     {
         try
@@ -108,7 +108,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpGet, Route("produtos-disponiveis/{data}")]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    // [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarProdutosDisponiveisPorData(DateTime data)
     {
         try
@@ -124,7 +124,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpGet, Route("produtos-disponiveis/{produtoId}/{data}")]
-    [CustomAuthorizationFilter(TipoRoles.Usuario)]
+    // [CustomAuthorizationFilter(TipoRoles.Usuario)]
     public object RetornarProdutosDisponiveisPorProdutoIdEData(int produtoId, DateTime data)
     {
         try
@@ -140,7 +140,7 @@ public class LocacaoController : LocacaoControllerBase
     }
 
     [HttpPatch, Route("alterar-status-da-locacao")]
-    [CustomAuthorizationFilter(TipoRoles.Administrador)]
+    // [CustomAuthorizationFilter(TipoRoles.Administrador)]
     public object EditarStatusDaLocacao(EditarStatusDaLocacaoDTO locacaoDto)
     {
         try

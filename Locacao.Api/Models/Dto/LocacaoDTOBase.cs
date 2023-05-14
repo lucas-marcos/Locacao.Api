@@ -3,6 +3,7 @@
 public class LocacaoDTOBase
 {
     public DateTime DataDoEvento { get; set; }
+    public DateTime DataRecolhimentoLocacao { get; set; }
     public EnderecoDoEventoDTO EnderecoDoEvento { get; set; }
 }
 

@@ -54,6 +54,7 @@ public class LocacaoServices : ILocacaoServices
 
         locacao.SetDataDoEvento(solicitacaoDeLocacao.DataDoEvento);
         locacao.SetEnderecoDoEvento(endereco.Rua, endereco.Bairro, endereco.Cidade, endereco.Uf, endereco.Cep);
+        locacao.SetDataRecolhimentoLocacao(solicitacaoDeLocacao.DataRecolhimentoLocacao);
         locacao.SetUsuarioQueSolicitouId(usuarioQueSolicitou);
 
         _locacaoRepository.Adicionar(locacao);
@@ -107,6 +108,7 @@ public class LocacaoServices : ILocacaoServices
         locacaoParaAlterar.SetStatusDaSolicitacao(locacao.StatusDaSolicitacao);
         locacaoParaAlterar.SetEnderecoDoEvento(enderecoParaAtualizar.Rua, enderecoParaAtualizar.Bairro, enderecoParaAtualizar.Cidade, enderecoParaAtualizar.Uf, enderecoParaAtualizar.Cep);
         locacaoParaAlterar.SetDataDoEvento(locacao.DataDoEvento);
+        locacaoParaAlterar.SetDataRecolhimentoLocacao(locacao.DataRecolhimentoLocacao);
         
         _locacaoRepository.Atualizar(locacaoParaAlterar);
         _locacaoRepository.Salvar();

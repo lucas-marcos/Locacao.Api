@@ -5,6 +5,7 @@ public class LocacaoTO
     public int Id { get; set; }
     public DateTime DataSolicitacao { get; set; }
     public DateTime DataDoEvento { get; set; }
+    public DateTime DataRecolhimentoLocacao { get; set; }
     public List<ProdutoPorLocacao> ProdutoPorLocacao { get; set; }
     public string UsuarioQueSolicitou { get; set; }
     public Endereco enderecoDoEvento { get; set; }
