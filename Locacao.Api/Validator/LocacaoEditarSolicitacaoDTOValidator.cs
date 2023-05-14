@@ -12,6 +12,6 @@ public class LocacaoEditarSolicitacaoDTOValidator : AbstractValidator<LocacaoEdi
         RuleFor(a => a.Id).GreaterThan(0).WithMessage("Informe o identificador");
         RuleFor(a => a.StatusDaSolicitacao).Must(a => Enum.IsDefined(typeof(StatusDaSolicitacao), a)).WithMessage("Informe um status de solicitação válido");
         RuleFor(a => a)
-            .Must(a => a.DataDoEvento >= a.DataRecolhimentoLocacao).WithMessage("A data do recolhimento deve ser maior do que a data do evento");
+            .Must(a => a.DataDoEvento <= a.DataRecolhimentoLocacao).WithMessage("A data do recolhimento deve ser maior do que a data do evento");
     }
 }
