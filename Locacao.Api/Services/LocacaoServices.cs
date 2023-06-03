@@ -20,7 +20,7 @@ public class LocacaoServices : ILocacaoServices
 
     private int RetornarQtdReservadoDoProdutoPelaData(int produtoId, DateTime dataDaReserva) => _locacaoRepository.RetornarQtdLocadoDoProdutoPelaData(produtoId, dataDaReserva);
 
-    public IQueryable<Models.Locacao> RetornarLocacoes() => _locacaoRepository.RetornarLocacoes(); 
+    public IQueryable<Models.Locacao> RetornarLocacoes() => _locacaoRepository.RetornarLocacoes();
 
     private int RetornarQtdDisponivelDoProdutoParaAData(int produtoId, DateTime dataDoEvento)
     {
@@ -29,14 +29,6 @@ public class LocacaoServices : ILocacaoServices
         var qtdReservado = RetornarQtdReservadoDoProdutoPelaData(produtoId, dataDoEvento);
 
         return qtdDoProdutoEmEstoque - qtdReservado;
-    }
-
-    private void ValidarSePodeLocar(Produto produto, DateTime dataDoEvento, int qtdParaLocar)
-    {
-        var qtdDisponivel = RetornarQtdDisponivelDoProdutoParaAData(produto.Id, dataDoEvento);
-
-        if (qtdParaLocar > qtdDisponivel)
-            throw new Exception($"O produto {produto.Nome} possui apenas {qtdDisponivel} disponível para a data informada");
     }
 
     public void VerificarDisponibilidadeERealizarASolicitacaoDeLocacao(LocacaoCriarSolicitacaoDTO solicitacaoDeLocacao, string usuarioQueSolicitou)
@@ -71,7 +63,8 @@ public class LocacaoServices : ILocacaoServices
 
     public List<Models.Locacao> RetornarLocacoesPeloUsuarioId(string usuarioId) => _locacaoRepository.RetornarLocacoesPeloUsuarioId(usuarioId).ToList();
 
-    public List<Models.Locacao> RetornarLocacoesPeloStatusDaSolicitacao(StatusDaSolicitacao statusDaSolicitacao) => _locacaoRepository.RetornarLocacoesPeloStatusDaSolicitacao(statusDaSolicitacao).ToList();
+    public List<Models.Locacao> RetornarLocacoesPeloStatusDaSolicitacao(StatusDaSolicitacao statusDaSolicitacao) =>
+        _locacaoRepository.RetornarLocacoesPeloStatusDaSolicitacao(statusDaSolicitacao).ToList();
 
     public List<ProdutoDisponivelTO> RetornarProdutosDisponiveisPelaData(DateTime data)
     {
@@ -103,13 +96,13 @@ public class LocacaoServices : ILocacaoServices
         var locacaoParaAlterar = _locacaoRepository.BuscarPorId(locacao.Id) ?? throw new Exception("Não foi possível encontrar o produto");
 
         var enderecoParaAtualizar = locacao.EnderecoDoEvento;
-        
+
         locacaoParaAlterar.SetStatusDaLocacao(locacao.StatusDaLocacao);
         locacaoParaAlterar.SetStatusDaSolicitacao(locacao.StatusDaSolicitacao);
         locacaoParaAlterar.SetEnderecoDoEvento(enderecoParaAtualizar.Rua, enderecoParaAtualizar.Bairro, enderecoParaAtualizar.Cidade, enderecoParaAtualizar.Uf, enderecoParaAtualizar.Cep);
         locacaoParaAlterar.SetDataDoEvento(locacao.DataDoEvento);
         locacaoParaAlterar.SetDataRecolhimentoLocacao(locacao.DataRecolhimentoLocacao);
-        
+
         _locacaoRepository.Atualizar(locacaoParaAlterar);
         _locacaoRepository.Salvar();
     }
@@ -119,7 +112,7 @@ public class LocacaoServices : ILocacaoServices
         var locacao = _locacaoRepository.BuscarPorId(locacaoId) ?? throw new Exception("Não foi possível encontrar o produto informado");
 
         locacao.SetStatusDaLocacao(statusDaLocacao);
-        
+
         _locacaoRepository.Atualizar(locacao);
         _locacaoRepository.Salvar();
 
@@ -132,5 +125,24 @@ public class LocacaoServices : ILocacaoServices
             .Where(a => a.DataDoEvento >= dataInicial && a.DataDoEvento <= dataFinal && a.StatusDaLocacao == StatusDaLocacao.Concluido)
             .SelectMany(a => a.ProdutoPorLocacao)
             .ToList();
+    }
+
+    public List<ValidacaoDeEstoqueTO> VerificarSeTemEstoque(VerificarEstoqueDTO verificarEstoqueDTO)
+    {
+        var validacaoDeEstoqueTO = new List<ValidacaoDeEstoqueTO>();
+
+        foreach (var produtoParaValidar in verificarEstoqueDTO.Produtos)
+        {
+            var produto = _produtoServices.RetornarProduto(produtoParaValidar.Id) ?? throw new Exception("Não foi possível encontrar o produto informado");
+
+            var qtdDisponivel = RetornarQtdDisponivelDoProdutoParaAData(produto.Id, verificarEstoqueDTO.DataDoEvento);
+
+            if (produtoParaValidar.Quantidade > qtdDisponivel)
+                validacaoDeEstoqueTO.Add(new ValidacaoDeEstoqueTO(produto.Id, false, $"O produto {produto.Nome} possui apenas {qtdDisponivel} disponível para a data informada"));
+
+            validacaoDeEstoqueTO.Add(new ValidacaoDeEstoqueTO(produto.Id, true, "Produto disponível"));
+        }
+
+        return validacaoDeEstoqueTO;
     }
 }

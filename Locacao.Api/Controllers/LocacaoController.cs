@@ -146,12 +146,28 @@ public class LocacaoController : LocacaoControllerBase
         try
         {
             var locacao = _locacaoServices.EditarStatusDaLocacao(locacaoDto.LocacaoId, locacaoDto.StatusDaLocacao.ToEnum<StatusDaLocacao>());
-            
-            return new { sucesso = true,  locacao = _mapper.Map<LocacaoTO>(locacao)};
+
+            return new { sucesso = true, locacao = _mapper.Map<LocacaoTO>(locacao) };
         }
         catch (Exception ex)
         {
             return new { sucesso = false, mensagem = "Não foi possível editar a locação pelo seguinte motivo: " + ex.Message };
+        }
+    }
+
+    [HttpPost, Route("verificar-estoque")]
+    [CustomAuthorizationFilter(TipoRoles.Administrador)]
+    public object VerificarEstoque(VerificarEstoqueDTO verificarEstoqueDto)
+    {
+        try
+        {
+            var validacaoDoEstoque = _locacaoServices.VerificarSeTemEstoque(verificarEstoqueDto);
+
+            return new { sucesso = true, validacaoDoEstoque };
+        }
+        catch (Exception ex)
+        {
+            return new { sucesso = false, mensagem = "Não foi possível verificar o estoque pelo seguinte motivo: " + ex.Message };
         }
     }
 }
