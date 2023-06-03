@@ -27,7 +27,7 @@ public class LoginController : ControllerBase
     {
         try
         {
-            if (!usuario.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
+            if (!usuario.IsValid())
                 throw new Exception(usuario.RetornarErros());
             
             var usuarioLogado = _autenticacaoServices.Autenticar(_mapper.Map<ApplicationUser>(usuario), usuario.Senha);
@@ -48,7 +48,7 @@ public class LoginController : ControllerBase
     {
         try
         {
-            if (!usuario.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
+            if (!usuario.IsValid()) 
                 throw new Exception(usuario.RetornarErros());
 
             var usuarioCadastrado = _autenticacaoServices.CriarUsuario(_mapper.Map<ApplicationUser>(usuario), usuario.Senha);

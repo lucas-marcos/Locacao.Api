@@ -23,11 +23,11 @@ public class ProdutoController
 
     [HttpPost]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    public object AdicionarProduto(ProdutoDTO produto) //todo verificar quando tem que usar DTO e quando tem que usar TO
+    public object AdicionarProduto(ProdutoDTO produto) 
     {
         try
         {
-            if (!produto.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
+            if (!produto.IsValid()) 
                 throw new Exception(produto.RetornarErros());
 
             var produtoCadastrado = _produtoServices.CadatrarProduto(_mapper.Map<Produto>(produto));
@@ -42,11 +42,11 @@ public class ProdutoController
 
     [HttpPut]
     [CustomAuthorizationFilter(TipoRoles.Administrador)]
-    public object EditarProduto(ProdutoParaEditarDTO produto) //todo verificar quando tem que usar DTO e quando tem que usar TO
+    public object EditarProduto(ProdutoParaEditarDTO produto) 
     {
         try
         {
-            if (!produto.IsValid()) //todo ver dps se tem com validar antes do request chegar no construtor
+            if (!produto.IsValid()) 
                 throw new Exception(produto.RetornarErros());
 
             var produtoEditado = _produtoServices.EditarProduto(_mapper.Map<Produto>(produto));
