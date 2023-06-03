@@ -30,4 +30,10 @@
       <Compile Remove="Models\Dto\EstoqueDTOBase.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Update="appsettings.Development.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
