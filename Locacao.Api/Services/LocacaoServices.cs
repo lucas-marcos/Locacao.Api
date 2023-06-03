@@ -139,8 +139,8 @@ public class LocacaoServices : ILocacaoServices
 
             if (produtoParaValidar.Quantidade > qtdDisponivel)
                 validacaoDeEstoqueTO.Add(new ValidacaoDeEstoqueTO(produto.Id, false, $"O produto {produto.Nome} possui apenas {qtdDisponivel} disponível para a data informada"));
-
-            validacaoDeEstoqueTO.Add(new ValidacaoDeEstoqueTO(produto.Id, true, "Produto disponível"));
+            else
+                validacaoDeEstoqueTO.Add(new ValidacaoDeEstoqueTO(produto.Id, true, "Produto disponível"));
         }
 
         return validacaoDeEstoqueTO;
